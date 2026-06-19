@@ -1,11 +1,18 @@
 from django.db import models
 
-
 class Banner(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    subtitle = models.CharField(max_length=300, blank=True)
-    image = models.ImageField(upload_to='banners/')
-    link = models.URLField(blank=True)
+    title_en = models.CharField(max_length=200, blank=True, verbose_name="Title (English)")
+    title_mr = models.CharField(max_length=200, blank=True, verbose_name="Title (Marathi)")
+
+    subtitle_en = models.TextField(blank=True, verbose_name="Subtitle (English)")
+    subtitle_mr = models.TextField(blank=True, verbose_name="Subtitle (Marathi)")
+
+    image = models.ImageField(upload_to='banners/', null=True, blank=True)
+
+    cta_text_en = models.CharField(max_length=100, blank=True, verbose_name="CTA Text (English)")
+    cta_text_mr = models.CharField(max_length=100, blank=True, verbose_name="CTA Text (Marathi)")
+
+    cta_link = models.CharField(max_length=200, blank=True, default='')
     order = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
@@ -13,31 +20,41 @@ class Banner(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return self.title or f"Banner {self.id}"
+        return self.title_en or f"Banner {self.id}"
 
 
 class BenefitItem(models.Model):
-    icon = models.ImageField(upload_to='benefits/', blank=True, null=True)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=300, blank=True)
+    icon = models.CharField(max_length=50, blank=True, default='Leaf', help_text="Lucide icon name (e.g., 'Leaf', 'Sprout')")
+
+    title_en = models.CharField(max_length=200, blank=True, verbose_name="Title (English)")
+    title_mr = models.CharField(max_length=200, blank=True, verbose_name="Title (Marathi)")
+
+    description_en = models.TextField(blank=True, verbose_name="Description (English)")
+    description_mr = models.TextField(blank=True, verbose_name="Description (Marathi)")
+
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return self.title
+        return self.title_en or f"Benefit {self.id}"
 
 
 class CropResult(models.Model):
-    crop_name = models.CharField(max_length=100)
-    result_text = models.CharField(max_length=300)  # e.g. "30-32% higher yield, 3x more tillers"
-    before_image = models.ImageField(upload_to='crop_results/', blank=True, null=True)
-    after_image = models.ImageField(upload_to='crop_results/', blank=True, null=True)
+    crop_name_en = models.CharField(max_length=100, blank=True, verbose_name="Crop Name (English)")
+    crop_name_mr = models.CharField(max_length=100, blank=True, verbose_name="Crop Name (Marathi)")
+
+    yield_increase_percentage = models.CharField(max_length=50, blank=True, default='')
+
+    description_en = models.TextField(blank=True, verbose_name="Description (English)")
+    description_mr = models.TextField(blank=True, verbose_name="Description (Marathi)")
+
+    image = models.ImageField(upload_to='crop_results/', null=True, blank=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return self.crop_name
+        return self.crop_name_en or f"Crop Result {self.id}"

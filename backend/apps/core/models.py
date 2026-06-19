@@ -1,23 +1,27 @@
 from django.db import models
 
-
 class SiteSettings(models.Model):
-    site_name = models.CharField(max_length=200, default="SVGOLD Biofertilizers")
-    logo = models.ImageField(upload_to='core/')
-    phone_primary = models.CharField(max_length=20)
-    phone_secondary = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(blank=True)
-    address = models.TextField(blank=True)
-    facebook_url = models.URLField(blank=True)
-    instagram_url = models.URLField(blank=True)
-    linkedin_url = models.URLField(blank=True)
-    website_url = models.URLField(blank=True)
+    company_name = models.CharField(max_length=200, default="TupeGoldFarming")
+    logo = models.ImageField(upload_to='core/', blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, default='')
+    phone2 = models.CharField(max_length=20, blank=True, default='')
+    email = models.EmailField(blank=True, default='')
+
+    address_en = models.TextField(blank=True, verbose_name="Address (English)")
+    address_mr = models.TextField(blank=True, verbose_name="Address (Marathi)")
+
+    whatsapp = models.CharField(max_length=20, blank=True, default='')
+
+    # socialLinks
+    facebook = models.URLField(blank=True, default='')
+    twitter = models.URLField(blank=True, default='')
+    instagram = models.URLField(blank=True, default='')
+    linkedin = models.URLField(blank=True, default='')
 
     def __str__(self):
-        return self.site_name
+        return self.company_name
 
     def save(self, *args, **kwargs):
-        # enforce singleton
         self.pk = 1
         super().save(*args, **kwargs)
 

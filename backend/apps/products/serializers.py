@@ -1,31 +1,66 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductImage
 
-
 class CategorySerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name', 'slug']
 
+    def get_name(self, obj):
+        return {'en': obj.name_en, 'mr': obj.name_mr}
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    imageUrl = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductImage
-        fields = ['id', 'image', 'caption', 'order']
+        fields = ['id', 'imageUrl', 'caption', 'order']
 
+    def get_imageUrl(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
 
-class ProductListSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+class ProductSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    shortDescription = serializers.SerializerMethodField()
+    fullDescription = serializers.SerializerMethodField()
+    imageUrl = serializers.SerializerMethodField()
+    packSizes = serializers.JSONField(source='pack_sizes')
+    howToUse = serializers.JSONField(source='how_to_use')
+    cropsTargeted = serializers.JSONField(source='crops_targeted')
+    slug = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'category', 'short_description', 'main_image', 'is_featured']
+        fields = [
+            'id', 'name', 'slug', 'category', 'shortDescription',
+            'fullDescription', 'imageUrl', 'benefits', 'packSizes',
+            'howToUse', 'cropsTargeted', 'is_featured'
+        ]
 
+    def get_slug(self, obj):
+        # Fallback to ID if slug is missing
+        return obj.slug if obj.slug else str(obj.id)
 
-class ProductDetailSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
-    gallery_images = ProductImageSerializer(many=True, read_only=True)
+    def get_name(self, obj):
+        return {'en': obj.name_en, 'mr': obj.name_mr}
 
-    class Meta:
-        model = Product
-        fields = '__all__'
+    def get_category(self, obj):
+        return {'en': obj.category_name_en, 'mr': obj.category_name_mr}
+
+    def get_shortDescription(self, obj):
+        return {'en': obj.short_description_en, 'mr': obj.short_description_mr}
+
+    def get_fullDescription(self, obj):
+        return {'en': obj.full_description_en, 'mr': obj.full_description_mr}
+
+    def get_imageUrl(self, obj):
+        request = self.context.get('request')
+        if obj.image_url:
+            return request.build_absolute_uri(obj.image_url.url) if request else obj.image_url.url
+        return None
