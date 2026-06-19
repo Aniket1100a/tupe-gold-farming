@@ -1,10 +1,10 @@
 import { Banner, BenefitItem, CropResult, Product, SiteSettings } from '../types';
 
 export const SETTINGS: SiteSettings = {
-  companyName: 'TupeGoldFarming',
+  companyName: 'Tupe Gold Farming',
   phone: '+91 9527188188',
   phone2: '+91 9822188188',
-  email: 'info@svgold.com',
+  email: 'info@tupegoldfarming.com',
   address: {
     en: '123 Agri Business Park, Green Sector, Agriculture City, 456001',
     mr: '१२३ अग्री बिझनेस पार्क, ग्रीन सेक्टर, एग्रीकल्चर सिटी, ४५६००१'
@@ -88,16 +88,16 @@ export const BENEFITS: BenefitItem[] = [
 
 export const PRODUCTS: Product[] = [
   {
-    id: 'svgold-azotobacter',
-    name: { en: 'SVGOLD Azotobacter', mr: 'एस.व्ही. गोल्ड अझोतोबॅक्टर' },
+    id: 'tupegold-azotobacter',
+    name: { en: 'Tupe Gold Azotobacter', mr: 'तुपे गोल्ड अझोतोबॅक्टर' },
     category: { en: 'Nitrogen Fixer', mr: 'नायट्रोजन फिक्सर (नत्र स्थिर करणारे)' },
     shortDescription: {
       en: 'Free-living nitrogen-fixing bacteria suitable for all non-leguminous crops.',
       mr: 'सर्व प्रकारच्या (द्विदल सोडून) पिकांसाठी उपयुक्त मुक्त-वाढणारे नायट्रोजन-स्थिर करणारे जीवाणू.'
     },
     fullDescription: {
-      en: 'SVGOLD Azotobacter is a high-potency biofertilizer based on selective strains of nitrogen-fixing bacteria. It not only fixes atmospheric nitrogen but also produces growth-promoting substances that boost crop vigor and yield.',
-      mr: 'SVGOLD अझोटोबॅक्टर हे नायट्रोजन स्थिर करणाऱ्या जीवाणूंच्या निवडक जातींवर आधारित अत्यंत प्रभावी जिवाणू खत आहे. हे हवेतील नायट्रोजन स्थिर करण्यासोबतच वनस्पतींच्या वाढीस चालना देणारे घटक तयार करते, ज्यामुळे पिकांची वाढ जोमाने होते आणि उत्पन्न वाढते.'
+      en: 'Tupe Gold Azotobacter is a high-potency biofertilizer based on selective strains of nitrogen-fixing bacteria. It not only fixes atmospheric nitrogen but also produces growth-promoting substances that boost crop vigor and yield.',
+      mr: 'तुपे गोल्ड अझोटोबॅक्टर हे नायट्रोजन स्थिर करणाऱ्या जीवाणूंच्या निवडक जातींवर आधारित अत्यंत प्रभावी जिवाणू खत आहे. हे हवेतील नायट्रोजन स्थिर करण्यासोबतच वनस्पतींच्या वाढीस चालना देणारे घटक तयार करते, ज्यामुळे पिकांची वाढ जोमाने होते आणि उत्पन्न वाढते.'
     },
     imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
     benefits: [
@@ -123,16 +123,16 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: 'svgold-psb',
-    name: { en: 'SVGOLD PSB', mr: 'एस.व्ही. गोल्ड पीएसबी' },
+    id: 'tupegold-psb',
+    name: { en: 'Tupe Gold PSB', mr: 'तुपे गोल्ड पीएसबी' },
     category: { en: 'Phosphate Solubilizer', mr: 'फॉस्फेट विरघळविणारे' },
     shortDescription: {
       en: 'Phosphate Solubilizing Bacteria that converts insoluble rock phosphate into available forms.',
       mr: 'अघुलनशील फॉस्फरसला पिकांना शोषून घेण्यायोग्य बनवणारे फॉस्फेट विरघळवणारे जीवाणू.'
     },
     fullDescription: {
-      en: 'SVGOLD PSB contains highly efficient phosphate solubilizing bacteria capable of solubilizing inorganic phosphorus from insoluble compounds and providing it to the plants, reducing the need for phosphatic fertilizers.',
-      mr: 'SVGOLD PSB मध्ये अत्यंत कार्यक्षम फॉस्फेट विरघळवणारे जीवाणू असतात जे जमिनीतील स्थिर फॉस्फरस विरघळवून पिकांना उपलब्ध करून देतात, ज्यामुळे फॉस्फेट रासायनिक खतांची गरज कमी होते.'
+      en: 'Tupe Gold PSB contains highly efficient phosphate solubilizing bacteria capable of solubilizing inorganic phosphorus from insoluble compounds and providing it to the plants, reducing the need for phosphatic fertilizers.',
+      mr: 'तुपे गोल्ड PSB मध्ये अत्यंत कार्यक्षम फॉस्फेट विरघळवणारे जीवाणू असतात जे जमिनीतील स्थिर फॉस्फरस विरघळवून पिकांना उपलब्ध करून देतात, ज्यामुळे फॉस्फेट रासायनिक खतांची गरज कमी होते.'
     },
     imageUrl: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
     benefits: [
@@ -152,16 +152,16 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: 'svgold-kmb',
-    name: { en: 'SVGOLD KMB', mr: 'एस.व्ही. गोल्ड केएमबी' },
+    id: 'tupegold-kmb',
+    name: { en: 'Tupe Gold KMB', mr: 'तुपे गोल्ड केएमबी' },
     category: { en: 'Potash Mobilizer', mr: 'पोटॅश उपलब्ध करणारे' },
     shortDescription: {
       en: 'Potassium Mobilizing Bacteria that makes soil potash available to crops.',
       mr: 'जमिनीतील पोटॅशियम (पालाश) विरघळवून पिकांना उपलब्ध करणारे जीवाणू.'
     },
     fullDescription: {
-      en: 'SVGOLD KMB helps in mobilizing bound potassium in the soil and makes it available to the plant system. It is highly beneficial for fruit quality, disease resistance, and water stress management in crops.',
-      mr: 'SVGOLD KMB जमिनीतील अडकलेले पोटॅशियम पिकांना उपलब्ध करून देण्यास मदत करते. यामुळे फळांची गुणवत्ता सुधारते, रोगांचा प्रतिकार करण्याची क्षमता वाढते आणि पाण्याच्या टंचाईवर मात करण्यासाठी पिकांना मदत होते.'
+      en: 'Tupe Gold KMB helps in mobilizing bound potassium in the soil and makes it available to the plant system. It is highly beneficial for fruit quality, disease resistance, and water stress management in crops.',
+      mr: 'तुपे गोल्ड KMB जमिनीतील अडकलेले पोटॅशियम पिकांना उपलब्ध करून देण्यास मदत करते. यामुळे फळांची गुणवत्ता सुधारते, रोगांचा प्रतिकार करण्याची क्षमता वाढते आणि पाण्याच्या टंचाईवर मात करण्यासाठी पिकांना मदत होते.'
     },
     imageUrl: 'https://images.unsplash.com/photo-1599839619722-39751411ea63?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
     benefits: [
@@ -183,16 +183,16 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    id: 'svgold-plus',
-    name: { en: 'SVGOLD Plus (NPK Consortia)', mr: 'एस.व्ही. गोल्ड प्लस (NPK कन्सोर्टिया)' },
+    id: 'tupegold-plus',
+    name: { en: 'Tupe Gold Plus (NPK Consortia)', mr: 'तुपे गोल्ड प्लस (NPK कन्सोर्टिया)' },
     category: { en: 'Complete Nutrition', mr: 'परिपूर्ण पोषण' },
     shortDescription: {
       en: 'A balanced microbial consortium containing Nitrogen fixing, Phosphate solubilizing, and Potash mobilizing bacteria.',
       mr: 'नत्र स्थिर करणारे, स्फुरद विघळवणारे आणि पालाश उपलब्ध करणाऱ्या जीवाणूंचे एकत्रित संतुलन.'
     },
     fullDescription: {
-      en: 'SVGOLD Plus is a comprehensive biofertilizer consortia that provides comprehensive nutritional support. It balances N, P, and K availability naturally, offering a complete organic solution for progressive farmers aiming for maximum yield without chemical degradation.',
-      mr: 'SVGOLD Plus (NPK) हे एक संपूर्ण जैविक खताचे मिश्रण आहे जे पिकांना N, P आणि K चे नैसर्गिकरित्या समतोल पोषण प्रदान करते. जे प्रगतशील शेतकरी रासायनिक खतांचा अतिवापर टाळून कमाल उत्पन्न घेण्याचे उद्दिष्ट ठेवतात त्यांच्यासाठी हे योग्य सेंद्रिय समाधान आहे.'
+      en: 'Tupe Gold Plus is a comprehensive biofertilizer consortia that provides comprehensive nutritional support. It balances N, P, and K availability naturally, offering a complete organic solution for progressive farmers aiming for maximum yield without chemical degradation.',
+      mr: 'तुपे गोल्ड Plus (NPK) हे एक संपूर्ण जैविक खताचे मिश्रण आहे जे पिकांना N, P आणि K चे नैसर्गिकरित्या समतोल पोषण प्रदान करते. जे प्रगतशील शेतकरी रासायनिक खतांचा अतिवापर टाळून कमाल उत्पन्न घेण्याचे उद्दिष्ट ठेवतात त्यांच्यासाठी हे योग्य सेंद्रिय समाधान आहे.'
     },
     imageUrl: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
     benefits: [
@@ -234,7 +234,7 @@ export const CROP_RESULTS: CropResult[] = [
     yieldIncreasePercentage: '24-26%',
     description: {
       en: 'More bolls per plant and higher boll weight. Significant reduction in square dropping.',
-      mr: 'कपाशीच्या बोंडांची संख्या आणि वजन वाढले. पाते गळतीमध्ये लक्षणीय घट.'
+      mr: 'कपाशीच्या बोंडांची संख्या and वजन वाढले. पाते गळतीमध्ये लक्षणीय घट.'
     },
     imageUrl: 'https://images.unsplash.com/photo-1592398516089-ea26c31bfce1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
   },

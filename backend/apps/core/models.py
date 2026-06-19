@@ -1,7 +1,7 @@
 from django.db import models
 
 class SiteSettings(models.Model):
-    company_name = models.CharField(max_length=200, default="TupeGoldFarming")
+    company_name = models.CharField(max_length=200, default="Tupe Gold Farming")
     logo = models.ImageField(upload_to='core/', blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, default='')
     phone2 = models.CharField(max_length=20, blank=True, default='')
