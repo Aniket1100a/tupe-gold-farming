@@ -83,13 +83,13 @@ export const ProductDetail: React.FC = () => {
             
             {/* Image */}
             <div className="relative">
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 sticky top-32">
+              <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 bg-gradient-to-br from-green-50 via-gray-50 to-gold-50/30 sticky top-32">
                 <img 
                   src={product.imageUrl} 
                   alt={product.name} 
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-contain object-center mix-blend-multiply"
                 />
-                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-green-800 shadow-sm uppercase tracking-wider">
+                <div className="absolute top-6 left-6 bg-gradient-to-r from-gold-400 to-gold-500 text-green-950 px-4 py-2 rounded-full text-sm font-black shadow-lg border border-gold-300 uppercase tracking-widest backdrop-blur-md">
                   {product.category}
                 </div>
               </div>

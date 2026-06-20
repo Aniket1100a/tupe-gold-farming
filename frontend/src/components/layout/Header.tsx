@@ -45,13 +45,15 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-green-700 p-2 rounded-lg">
-              <Sprout className="w-6 h-6 text-white" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="bg-gradient-to-br from-green-700 to-green-900 p-2.5 rounded-xl shadow-inner border border-gold-400/50 group-hover:shadow-gold-500/20 transition-all">
+              <Sprout className="w-6 h-6 text-gold-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-green-800 tracking-tight leading-none">{settings ? settings.companyName : "Tupe Gold Farming"}</h1>
-              <p className="text-[10px] text-green-600 font-medium uppercase tracking-wider">Biofertilizers</p>
+              <h1 className="text-2xl font-black bg-gradient-to-r from-green-800 to-green-600 bg-clip-text text-transparent tracking-tight leading-none">
+                {settings ? settings.companyName : "Tupe Gold Farming"}
+              </h1>
+              <p className="text-[10px] text-gold-600 font-bold uppercase tracking-widest mt-0.5">Premium Biofertilizers</p>
             </div>
           </Link>
 
@@ -61,8 +63,8 @@ export const Header: React.FC = () => {
               <Link 
                 key={link.path} 
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-green-600 ${
-                  location.pathname === link.path ? 'text-green-700 border-b-2 border-green-600 pb-1' : 'text-gray-700'
+                className={`text-sm font-bold transition-all hover:text-green-700 ${
+                  location.pathname === link.path ? 'text-green-800 border-b-2 border-gold-500 pb-1' : 'text-gray-600'
                 }`}
               >
                 {link.name}

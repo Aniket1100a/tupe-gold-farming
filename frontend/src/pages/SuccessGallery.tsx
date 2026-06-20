@@ -38,20 +38,20 @@ export const SuccessGallery: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {cropResults.map((result) => (
-                <div key={result.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
-                  <div className="h-48 overflow-hidden relative">
+                <div key={result.id} className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full transform hover:-translate-y-1">
+                  <div className="h-56 overflow-hidden relative">
                     <img 
                       src={result.imageUrl} 
                       alt={result.cropName}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
-                      <TrendingUp className="w-4 h-4" />
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-gold-500 to-gold-400 backdrop-blur-md text-green-950 px-4 py-1.5 rounded-full text-sm font-black shadow-lg flex items-center gap-1.5 border border-gold-300">
+                      <TrendingUp className="w-4 h-4 text-green-900" />
                       +{result.yieldIncreasePercentage} {t('home.yieldIncrease')}
                     </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{result.cropName}</h3>
+                  <div className="p-8">
+                    <h3 className="text-xl font-black text-gray-900 mb-3 leading-tight">{result.cropName}</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">{result.description}</p>
                   </div>
                 </div>

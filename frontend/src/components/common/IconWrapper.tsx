@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 interface IconWrapperProps {
   icon: ReactNode;
-  variant?: 'light' | 'white';
+  variant?: 'light' | 'white' | 'gold';
   className?: string;
 }
 
@@ -13,7 +13,8 @@ export const IconWrapper: React.FC<IconWrapperProps> = ({
 }) => {
   const variantStyles = {
     light: "bg-green-50 text-green-600",
-    white: "bg-white text-green-600 shadow-sm border border-gray-100"
+    white: "bg-white text-green-600 shadow-sm border border-gray-100",
+    gold: "bg-gradient-to-br from-gold-100 to-gold-50 text-gold-600 shadow-sm border border-gold-200"
   };
 
   return (

@@ -24,15 +24,15 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   fullWidth = false,
 }) => {
-  const baseClasses = "inline-flex items-center justify-center gap-2 font-bold rounded-full transition-colors shadow-sm text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600";
+  const baseClasses = "inline-flex items-center justify-center gap-2 font-bold rounded-full transition-all duration-300 shadow-sm text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 border border-transparent";
   const widthClasses = fullWidth ? "w-full" : "";
   
   const variantClasses = {
-    primary: "bg-green-700 text-white hover:bg-green-800 shadow-md",
-    secondary: "bg-green-500 text-white hover:bg-green-400 shadow-md",
-    outline: "bg-transparent text-green-700 border border-green-700 hover:bg-green-50",
-    white: "bg-white text-green-800 hover:bg-gray-100 shadow-xl",
-    glass: "bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-md shadow-lg",
+    primary: "bg-gradient-to-r from-gold-500 to-gold-400 text-green-950 hover:from-gold-400 hover:to-gold-300 shadow-lg shadow-gold-500/25 border-gold-400/50 hover:-translate-y-0.5",
+    secondary: "bg-gradient-to-r from-green-700 to-green-600 text-white hover:from-green-600 hover:to-green-500 shadow-lg shadow-green-700/25 border-green-600/50 hover:-translate-y-0.5",
+    outline: "bg-transparent text-green-700 border-green-700 hover:bg-green-50 hover:border-gold-500 hover:text-gold-600",
+    white: "bg-white text-green-800 hover:bg-gray-50 shadow-xl border-gray-100 hover:-translate-y-0.5 hover:shadow-gold-500/10",
+    glass: "bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-md shadow-lg hover:border-gold-400/50 hover:text-gold-200",
   };
 
   const sizeClasses = {

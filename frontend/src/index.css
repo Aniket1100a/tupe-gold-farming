@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @theme {
+  --color-gold-50: #fbf8eb;
+  --color-gold-100: #f5edd1;
+  --color-gold-200: #ecdca5;
+  --color-gold-300: #e2c874;
+  --color-gold-400: #d8b144;
+  --color-gold-500: #d4af37;
+  --color-gold-600: #ab8b25;
+  --color-gold-700: #816718;
+  --color-gold-800: #584610;
+  --color-gold-900: #302607;
+
   --animate-float: float 6s ease-in-out infinite;
   --animate-float-delayed: float 6s ease-in-out 3s infinite;
 

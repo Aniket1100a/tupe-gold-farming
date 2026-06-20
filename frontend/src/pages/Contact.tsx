@@ -51,30 +51,30 @@ export const Contact: React.FC = () => {
               {settings && (
                 <div className="space-y-8 mb-12">
                   <div className="flex items-start gap-4">
-                    <IconWrapper icon={<Phone className="w-6 h-6" />} />
+                    <IconWrapper icon={<Phone className="w-6 h-6" />} variant="gold" />
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.phoneTitle')}</h3>
                       <p className="text-gray-600 mb-2">{t('contact.phoneDesc')}</p>
                       <div className="flex flex-col gap-1">
-                        <a href={`tel:${settings.phone}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.phone}</a>
+                        <a href={`tel:${settings.phone}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.phone}</a>
                         {settings.phone2 && (
-                          <a href={`tel:${settings.phone2}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.phone2}</a>
+                          <a href={`tel:${settings.phone2}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.phone2}</a>
                         )}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <IconWrapper icon={<Mail className="w-6 h-6" />} />
+                    <IconWrapper icon={<Mail className="w-6 h-6" />} variant="gold" />
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.emailTitle')}</h3>
                       <p className="text-gray-600 mb-2">{t('contact.emailDesc')}</p>
-                      <a href={`mailto:${settings.email}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.email}</a>
+                      <a href={`mailto:${settings.email}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.email}</a>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <IconWrapper icon={<MapPin className="w-6 h-6" />} />
+                    <IconWrapper icon={<MapPin className="w-6 h-6" />} variant="gold" />
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.officeTitle')}</h3>
                       <p className="text-gray-600 leading-relaxed max-w-sm">{settings.address}</p>
@@ -86,7 +86,7 @@ export const Contact: React.FC = () => {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-lg border border-gray-100">
+            <div className="bg-gradient-to-br from-white to-gold-50/10 p-8 md:p-10 rounded-3xl shadow-xl border border-gold-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('contact.sendMessage')}</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -98,7 +98,7 @@ export const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 outline-none transition-colors"
                     placeholder={t('contact.namePlaceholder')}
                   />
                 </div>
@@ -112,7 +112,7 @@ export const Contact: React.FC = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 outline-none transition-colors"
                       placeholder={t('contact.phonePlaceholder')}
                     />
                   </div>
@@ -124,7 +124,7 @@ export const Contact: React.FC = () => {
                       name="email" 
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 outline-none transition-colors"
                       placeholder={t('contact.emailPlaceholder')}
                     />
                   </div>
@@ -138,7 +138,7 @@ export const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors resize-y"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-gold-500 focus:border-gold-500 outline-none transition-colors resize-y"
                     placeholder={t('contact.howHelpPlaceholder')}
                   ></textarea>
                 </div>
