@@ -220,38 +220,6 @@ export const Home: React.FC = () => {
         </Container>
       </section>
 
-      {/* Crop Results */}
-      <section className="py-24 bg-gray-50 overflow-hidden">
-        <Container>
-          <SectionHeader 
-            title={t('home.provenResults')} 
-            subtitle={t('home.provenResultsSub')} 
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {cropResults.map((result) => (
-              <div key={result.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
-                <div className="h-48 overflow-hidden relative">
-                  <img 
-                    src={result.imageUrl} 
-                    alt={result.cropName}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
-                    <TrendingUp className="w-4 h-4" />
-                    +{result.yieldIncreasePercentage} {t('home.yieldIncrease')}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{result.cropName}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{result.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       {/* CTA Section */}
       {settings && (
         <section className="py-20 relative overflow-hidden bg-green-800">

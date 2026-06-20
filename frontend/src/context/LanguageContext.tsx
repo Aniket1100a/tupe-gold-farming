@@ -15,6 +15,7 @@ export const translations = {
     "nav.products": "Products",
     "nav.about": "About",
     "nav.contact": "Contact",
+    "nav.success": "Success Gallery",
     "nav.consult": "Consult an Expert",
     "footer.quickLinks": "Quick Links",
     "footer.ourSolutions": "Our Solutions",

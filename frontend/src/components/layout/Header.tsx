@@ -32,6 +32,7 @@ export const Header: React.FC = () => {
     { name: t('nav.home'), path: '/' },
     { name: t('nav.products'), path: '/products' },
     { name: t('nav.about'), path: '/about' },
+    { name: t('nav.success'), path: '/success-gallery' },
     { name: t('nav.contact'), path: '/contact' },
   ];
 
