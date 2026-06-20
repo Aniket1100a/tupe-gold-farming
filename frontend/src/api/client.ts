@@ -1,13 +1,8 @@
 import axios from 'axios';
 
-// Ensure the base URL ends with a slash for proper relative path joining
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/';
-
-const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+export const client = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'https://111e-2409-4090-2013-6615-813f-b565-6073-7106.ngrok-free.app',
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
-export default apiClient;

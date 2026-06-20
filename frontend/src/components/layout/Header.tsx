@@ -3,7 +3,7 @@ import { Menu, X, Sprout, Globe } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { apiService } from '../../api/services';
 import { SiteSettings } from '../../types';
-import { useLanguage, Language } from '../../context/LanguageContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Button } from '../common';
 
 export const Header: React.FC = () => {
@@ -19,13 +19,13 @@ export const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    // Fetch settings for the "Consult" button phone number
+  useEffect(() => {
     apiService.getSettings()
       .then(res => setSettings(res.data))
       .catch(err => console.error("Header settings fetch failed", err));
-
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
@@ -34,14 +34,6 @@ export const Header: React.FC = () => {
     { name: t('nav.about'), path: '/about' },
     { name: t('nav.contact'), path: '/contact' },
   ];
-
-  const languages: { code: Language; label: string }[] = [
-    { code: 'en', label: 'English' },
-    { code: 'mr', label: 'मराठी' },
-    { code: 'hi', label: 'हिन्दी' },
-  ];
-
-  const currentLangLabel = languages.find(l => l.code === language)?.label || 'English';
 
   return (
     <header 
@@ -57,7 +49,7 @@ export const Header: React.FC = () => {
               <Sprout className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-green-800 tracking-tight leading-none">Tupe Gold Farming</h1>
+              <h1 className="text-2xl font-bold text-green-800 tracking-tight leading-none">{settings ? settings.companyName : "Tupe Gold Farming"}</h1>
               <p className="text-[10px] text-green-600 font-medium uppercase tracking-wider">Biofertilizers</p>
             </div>
           </Link>
@@ -83,44 +75,52 @@ export const Header: React.FC = () => {
                 className="flex items-center gap-1.5 text-gray-700 hover:text-green-700 text-sm font-medium"
               >
                 <Globe className="w-4 h-4" />
-                {currentLangLabel}
+                {language === 'mr' ? 'मराठी' : language === 'hi' ? 'हिंदी' : 'English'}
               </button>
               
               {langMenuOpen && (
                 <div className="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      className={`block w-full text-left px-4 py-2 text-sm ${language === lang.code ? 'text-green-700 bg-green-50 font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
-                      onClick={() => { setLanguage(lang.code); setLangMenuOpen(false); }}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
+                  <button 
+                    className={`block w-full text-left px-4 py-2 text-sm ${language === 'mr' ? 'text-green-700 bg-green-50 font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                    onClick={() => { setLanguage('mr'); setLangMenuOpen(false); }}
+                  >
+                    मराठी
+                  </button>
+                  <button 
+                    className={`block w-full text-left px-4 py-2 text-sm ${language === 'hi' ? 'text-green-700 bg-green-50 font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                    onClick={() => { setLanguage('hi'); setLangMenuOpen(false); }}
+                  >
+                    हिंदी
+                  </button>
+                  <button 
+                    className={`block w-full text-left px-4 py-2 text-sm ${language === 'en' ? 'text-green-700 bg-green-50 font-bold' : 'text-gray-700 hover:bg-gray-50'}`}
+                    onClick={() => { setLanguage('en'); setLangMenuOpen(false); }}
+                  >
+                    English
+                  </button>
                 </div>
               )}
             </div>
 
-            <Button 
-              href={settings?.phone ? `tel:${settings.phone}` : '#'}
-              size="sm"
-            >
-              {t('nav.consult')}
-            </Button>
+            {settings?.phone && (
+              <Button 
+                href={`tel:${settings.phone}`}
+                size="sm"
+              >
+                {t('nav.consult')}
+              </Button>
+            )}
           </nav>
 
           <div className="flex gap-4 md:hidden">
             {/* Mobile Language Switcher */}
+            {/* Simple toggle between EN and MR for mobile space constraints */}
             <button 
-              onClick={() => {
-                const currentIndex = languages.findIndex(l => l.code === language);
-                const nextIndex = (currentIndex + 1) % languages.length;
-                setLanguage(languages[nextIndex].code);
-              }}
+              onClick={() => setLanguage(language === 'en' ? 'mr' : 'en')}
               className="flex items-center gap-1 text-green-700 text-sm font-bold bg-green-50 px-2 py-1 rounded-md"
             >
               <Globe className="w-4 h-4" />
-              {language.toUpperCase()}
+              {language === 'en' ? 'EN' : language === 'mr' ? 'MR' : 'HI'}
             </button>
             
             {/* Mobile Menu Button */}
@@ -150,12 +150,14 @@ export const Header: React.FC = () => {
                 {link.name}
               </Link>
             ))}
-            <a 
-              href={settings?.phone ? `tel:${settings.phone}` : '#'}
-              className="px-4 py-3 bg-green-700 text-white text-center font-medium rounded-lg"
-            >
-              {t('nav.consult')}
-            </a>
+            {settings?.phone && (
+              <a 
+                href={`tel:${settings.phone}`}
+                className="px-4 py-3 bg-green-700 text-white text-center font-medium rounded-lg"
+              >
+                {t('nav.consult')}
+              </a>
+            )}
           </nav>
         </div>
       )}

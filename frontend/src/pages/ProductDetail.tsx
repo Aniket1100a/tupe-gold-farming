@@ -18,40 +18,35 @@ const getIcon = (iconName: string) => {
 };
 
 export const ProductDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>(); // acts as slug
   const [product, setProduct] = useState<Product | null>(null);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
 
   useEffect(() => {
-    const fetchProductData = async () => {
-      if (!id) return;
+    const fetchData = async () => {
       setLoading(true);
-
       try {
-        const productRes = await apiService.getProduct(id);
-        setProduct(productRes.data);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-      }
-
-      try {
+        if (id) {
+          const productRes = await apiService.getProductBySlug(id);
+          setProduct(productRes.data);
+        }
         const settingsRes = await apiService.getSettings();
         setSettings(settingsRes.data);
       } catch (error) {
-        console.error("Error fetching settings:", error);
+        console.error("Error fetching product details:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
-    fetchProductData();
+    fetchData();
   }, [id]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="py-32 text-center min-h-[60vh] flex justify-center items-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
       </div>
     );
@@ -91,10 +86,10 @@ export const ProductDetail: React.FC = () => {
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 sticky top-32">
                 <img 
                   src={product.imageUrl} 
-                  alt={product.name}
+                  alt={product.name} 
                   className="w-full h-full object-cover object-center"
                 />
-                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-green-800 shadow-sm uppercase tracking-wide">
+                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-green-800 shadow-sm uppercase tracking-wider">
                   {product.category}
                 </div>
               </div>
@@ -102,63 +97,51 @@ export const ProductDetail: React.FC = () => {
 
             {/* Details */}
             <div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-                {product.name}
-              </h1>
+              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">{product.name}</h1>
               <p className="text-xl text-gray-700 leading-relaxed mb-10">
                 {product.fullDescription}
               </p>
 
-              {product.benefits && product.benefits.length > 0 && (
-                <div className="mb-12">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">{t('productDetail.keyBenefits')}</h3>
-                  <div className="space-y-6">
-                    {product.benefits.map((benefit, idx) => (
-                      <div key={idx} className="flex gap-4 items-start">
-                        <IconWrapper icon={getIcon(benefit.icon)} className="w-12 h-12" />
-                        <div>
-                          <h4 className="text-lg font-bold text-gray-900 mb-1">
-                            {benefit.title}
-                          </h4>
-                          <p className="text-gray-600">
-                            {benefit.description}
-                          </p>
-                        </div>
+              <div className="mb-12">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">{t('productDetail.keyBenefits')}</h3>
+                <div className="space-y-6">
+                  {product.benefits.map(benefit => (
+                    <div key={benefit.id} className="flex gap-4 items-start">
+                      <IconWrapper icon={getIcon(benefit.icon)} className="w-12 h-12" />
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-900 mb-1">{benefit.title}</h4>
+                        <p className="text-gray-600">{benefit.description}</p>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
-              {product.packSizes && product.packSizes.length > 0 && (
-                <div className="mb-12 bg-gray-50 rounded-2xl p-8 border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                    <Package className="text-green-600" />
-                    {t('productDetail.packSizes')}
-                  </h3>
-                  <div className="flex flex-wrap gap-4">
-                    {product.packSizes.map((size, idx) => (
-                      <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
-                        {size.size} {size.unit}
-                      </div>
-                    ))}
-                  </div>
+              <div className="mb-12 bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <Package className="text-green-600" />
+                  {t('productDetail.packSizes')}
+                </h3>
+                <div className="flex flex-wrap gap-4">
+                  {product.packSizes.map((size, idx) => (
+                    <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
+                      {size.size} {size.unit}
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
 
-              {settings && (
-                <div className="flex gap-4">
-                   <Button
-                    href={settings.phone ? `tel:${settings.phone}` : '#'}
-                    fullWidth
-                    className="rounded-xl"
-                    size="lg"
-                   >
-                     <Phone className="w-5 h-5" />
-                     {t('productDetail.inquire')}
-                   </Button>
-                </div>
-              )}
+              <div className="flex gap-4">
+                 <Button 
+                  href={settings ? `tel:${settings.phone}` : '#'}
+                  fullWidth
+                  className="rounded-xl"
+                  size="lg"
+                 >
+                   <Phone className="w-5 h-5" />
+                   {t('productDetail.inquire')}
+                 </Button>
+              </div>
 
             </div>
           </div>
@@ -166,52 +149,48 @@ export const ProductDetail: React.FC = () => {
       </div>
 
       {/* How to use section */}
-      {product.howToUse && product.howToUse.length > 0 && (
-        <div className="bg-green-50 py-24 border-t border-green-100">
-          <Container>
-            <SectionHeader
-              title={t('productDetail.appDosage')}
-              subtitle={t('productDetail.appDosageSub')}
-            />
+      <div className="bg-green-50 py-24 border-t border-green-100">
+        <Container>
+          <SectionHeader 
+            title={t('productDetail.appDosage')} 
+            subtitle={t('productDetail.appDosageSub')} 
+          />
 
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl mx-auto">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left min-w-[500px]">
-                  <thead className="bg-gray-50 border-b border-gray-100">
-                    <tr>
-                      <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.method')}</th>
-                      <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.dosage')}</th>
-                      <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.instructions')}</th>
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl mx-auto">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left min-w-[500px]">
+                <thead className="bg-gray-50 border-b border-gray-100">
+                  <tr>
+                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.method')}</th>
+                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.dosage')}</th>
+                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.instructions')}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {product.howToUse.map((method, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-5 font-bold text-gray-900">{method.method}</td>
+                      <td className="px-6 py-5 text-gray-600 font-medium">{method.dosage}</td>
+                      <td className="px-6 py-5 text-gray-600">{method.instructions}</td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {product.howToUse.map((method, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-5 font-bold text-gray-900">{method.method}</td>
-                        <td className="px-6 py-5 text-gray-600 font-medium">{method.dosage}</td>
-                        <td className="px-6 py-5 text-gray-600">{method.instructions}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {product.cropsTargeted && product.cropsTargeted.length > 0 && (
-              <div className="mt-16 text-center">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">{t('productDetail.targetCrops')}</h3>
-                <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-                  {product.cropsTargeted.map((crop, idx) => (
-                    <span key={idx} className="bg-white px-4 py-2 rounded-full border border-green-200 text-green-800 text-sm font-medium shadow-sm">
-                      {crop}
-                    </span>
                   ))}
-                </div>
-              </div>
-            )}
-          </Container>
-        </div>
-      )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">{t('productDetail.targetCrops')}</h3>
+            <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+              {product.cropsTargeted.map((crop, idx) => (
+                <span key={idx} className="bg-white px-4 py-2 rounded-full border border-green-200 text-green-800 text-sm font-medium shadow-sm">
+                  {crop}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </div>
 
     </div>
   );

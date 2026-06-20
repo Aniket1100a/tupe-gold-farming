@@ -48,44 +48,40 @@ export const Contact: React.FC = () => {
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('contact.getInTouch')}</h2>
               
-              <div className="space-y-8 mb-12">
-                <div className="flex items-start gap-4">
-                  <IconWrapper icon={<Phone className="w-6 h-6" />} />
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.phoneTitle')}</h3>
-                    <p className="text-gray-600 mb-2">{t('contact.phoneDesc')}</p>
-                    <div className="flex flex-col gap-1">
-                      {settings?.phone && (
+              {settings && (
+                <div className="space-y-8 mb-12">
+                  <div className="flex items-start gap-4">
+                    <IconWrapper icon={<Phone className="w-6 h-6" />} />
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.phoneTitle')}</h3>
+                      <p className="text-gray-600 mb-2">{t('contact.phoneDesc')}</p>
+                      <div className="flex flex-col gap-1">
                         <a href={`tel:${settings.phone}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.phone}</a>
-                      )}
-                      {settings?.phone2 && (
-                        <a href={`tel:${settings.phone2}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.phone2}</a>
-                      )}
+                        {settings.phone2 && (
+                          <a href={`tel:${settings.phone2}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.phone2}</a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <IconWrapper icon={<Mail className="w-6 h-6" />} />
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.emailTitle')}</h3>
+                      <p className="text-gray-600 mb-2">{t('contact.emailDesc')}</p>
+                      <a href={`mailto:${settings.email}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.email}</a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <IconWrapper icon={<MapPin className="w-6 h-6" />} />
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.officeTitle')}</h3>
+                      <p className="text-gray-600 leading-relaxed max-w-sm">{settings.address}</p>
                     </div>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <IconWrapper icon={<Mail className="w-6 h-6" />} />
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.emailTitle')}</h3>
-                    <p className="text-gray-600 mb-2">{t('contact.emailDesc')}</p>
-                    {settings?.email && (
-                      <a href={`mailto:${settings.email}`} className="text-green-700 font-bold hover:text-green-800 text-lg">{settings.email}</a>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <IconWrapper icon={<MapPin className="w-6 h-6" />} />
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.officeTitle')}</h3>
-                    <p className="text-gray-600 leading-relaxed max-w-sm">
-                      {settings?.address || ""}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )}
 
             </div>
 
