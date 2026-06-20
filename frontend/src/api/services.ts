@@ -12,6 +12,11 @@ export const apiService = {
   },
   getProductBySlug: async (slug: string) => client.get<Product>(`/api/products/${slug}/`),
   getCropResults: async () => client.get<CropResult[]>('/api/content/crop-results/'),
-  getSettings: async () => client.get<SiteSettings>('/api/core/site-settings/'),
+  getSettings: async () => {
+    const res = await client.get<any>('/api/core/site-settings/');
+    const data = Array.isArray(res.data) ? res.data[0] : res.data;
+    // ensure we return it wrapped in the expected AxiosResponse shape or just mutate data
+    return { ...res, data: data as SiteSettings };
+  },
   getCategories: async () => client.get<{name: string, slug: string}[]>('/api/products/categories/'),
 };

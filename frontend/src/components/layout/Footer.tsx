@@ -12,13 +12,26 @@ export const Footer: React.FC = () => {
 
   useEffect(() => {
     apiService.getSettings()
-      .then(res => setSettings(res.data))
+      .then(res => {
+        const data = res.data;
+        setSettings(Array.isArray(data) ? data[0] : data);
+      })
       .catch(err => console.error("Footer settings fetch failed", err));
 
     apiService.getProducts()
       .then(res => setProducts(res.data.slice(0, 5)))
       .catch(err => console.error("Footer products fetch failed", err));
   }, []);
+
+  const getAbsoluteUrl = (url: string | undefined) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    const baseUrl = import.meta.env.VITE_API_URL || 'https://111e-2409-4090-2013-6615-813f-b565-6073-7106.ngrok-free.app';
+    return `${baseUrl.replace(/\/$/, '')}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
+  const rawLogo = settings?.logoUrl || (settings as any)?.logo || (settings as any)?.logo_url || (settings as any)?.site_logo;
+  const logoImage = getAbsoluteUrl(rawLogo);
 
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8">
@@ -28,13 +41,33 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div>
             <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="bg-green-600 p-2 rounded-lg">
-                <Sprout className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-white tracking-tight leading-none">Tupe Gold Farming</h2>
-                <p className="text-[10px] text-green-400 font-medium uppercase tracking-wider">Biofertilizers</p>
-              </div>
+              {logoImage ? (
+                <div className="flex items-center gap-3">
+                  <div className="bg-white p-1.5 rounded-full inline-flex flex-shrink-0 w-12 h-12 md:w-14 md:h-14 items-center justify-center overflow-hidden">
+                    <img 
+                      src={logoImage} 
+                      alt={settings?.companyName || "Tupe Gold Farming"} 
+                      className="h-full w-full object-contain opacity-95 hover:opacity-100 transition-opacity drop-shadow-md" 
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-none">
+                      {settings?.companyName || "Tupe Gold Farming"}
+                    </h2>
+                    <p className="text-[10px] text-green-400 font-medium uppercase tracking-wider mt-1">Premium Biofertilizers</p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="bg-green-600 p-2 rounded-lg">
+                    <Sprout className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-white tracking-tight leading-none">Tupe Gold Farming</h2>
+                    <p className="text-[10px] text-green-400 font-medium uppercase tracking-wider">Biofertilizers</p>
+                  </div>
+                </>
+              )}
             </Link>
             <p className="text-gray-400 text-sm mb-6 leading-relaxed">
               {t('footer.desc')}

@@ -12,17 +12,19 @@ class SiteSettingsView(APIView):
             # Return empty structure matching the serializer
             return Response({
                 "companyName": "Tupe Gold Farming",
+                "logoUrl": None,
                 "phone": "",
                 "phone2": "",
                 "email": "",
                 "address": "",
                 "whatsapp": "",
                 "socialLinks": {
-                    "facebook": "",
-                    "twitter": "",
-                    "instagram": "",
+                    "facebook": "", 
+                    "twitter": "", 
+                    "instagram": "", 
                     "linkedin": ""
                 }
             })
-        serializer = SiteSettingsSerializer(settings)
+        # Pass request in context so SerializerMethodField can build absolute URI
+        serializer = SiteSettingsSerializer(settings, context={'request': request})
         return Response(serializer.data)
