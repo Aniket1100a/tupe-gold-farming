@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { apiService } from '../api/services';
 import { Banner, BenefitItem, Product, CropResult, SiteSettings } from '../types';
 import { ProductCard } from '../components/products/ProductCard';
-import { ArrowRight, CheckCircle2, TrendingUp, PhoneCall, ShieldCheck, Leaf, Sprout, Droplets, Sun } from 'lucide-react';
+import { ArrowRight, CheckCircle2, TrendingUp, PhoneCall, ShieldCheck, Leaf, Sprout, Droplets, Sun, Star, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { Button, Container, SectionHeader, IconWrapper } from '../components/common';
@@ -216,6 +216,82 @@ export const Home: React.FC = () => {
             {products.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Farmer Reviews Section */}
+      <section className="py-24 bg-gray-50">
+        <Container>
+          <SectionHeader 
+            title={t('home.farmerReviews')} 
+            subtitle={t('home.farmerReviewsSub')} 
+            align="center"
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all relative">
+              <Quote className="w-10 h-10 text-green-100 absolute top-6 right-6" />
+              <div className="flex gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                ))}
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-6 italic">
+                "Since using Tupe Gold Farming biofertilizers, my sugarcane yield has increased by almost 30%. The soil feels softer and retains water much better. Truly a miraculous product!"
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
+                  RJ
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Ramesh Jadhav</h4>
+                  <p className="text-sm text-green-600 font-medium">Sugarcane Farmer</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all relative">
+              <Quote className="w-10 h-10 text-green-100 absolute top-6 right-6" />
+              <div className="flex gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                ))}
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-6 italic">
+                "I was skeptical about organic farming, but the Azotobacter plus transformed my wheat fields. Yield is up, and I saved so much on chemical fertilizers."
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
+                  SP
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Suresh Patil</h4>
+                  <p className="text-sm text-green-600 font-medium">Wheat Farmer</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all relative">
+              <Quote className="w-10 h-10 text-green-100 absolute top-6 right-6" />
+              <div className="flex gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                ))}
+              </div>
+              <p className="text-gray-700 leading-relaxed mb-6 italic">
+                "Excellent results on my cotton crop. The plants are healthier, greener, and more resistant to diseases. The team also provided great guidance."
+              </p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-lg">
+                  AG
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Anil Gaikwad</h4>
+                  <p className="text-sm text-green-600 font-medium">Cotton Farmer</p>
+                </div>
+              </div>
+            </div>
           </div>
         </Container>
       </section>

@@ -105,7 +105,11 @@ export const ProductDetail: React.FC = () => {
               <div className="mb-12">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">{t('productDetail.keyBenefits')}</h3>
                 <div className="space-y-6">
-                  {product.benefits.map(benefit => (
+                  {(product.benefits?.length > 0 ? product.benefits : [
+                      { id: '1', title: 'Improved Soil Health', description: 'Enhances the microbial activity in the soil making it more fertile over time.', icon: 'leaf' },
+                      { id: '2', title: 'Higher Yields', description: 'Significantly increases crop yield and overall quality of the harvest.', icon: 'trending-up' },
+                      { id: '3', title: 'Eco-Friendly', description: '100% natural and safe for the environment, reducing chemical footprint.', icon: 'shield-check' }
+                  ]).map(benefit => (
                     <div key={benefit.id} className="flex gap-4 items-start">
                       <IconWrapper icon={getIcon(benefit.icon)} className="w-12 h-12" />
                       <div>
@@ -123,7 +127,11 @@ export const ProductDetail: React.FC = () => {
                   {t('productDetail.packSizes')}
                 </h3>
                 <div className="flex flex-wrap gap-4">
-                  {product.packSizes.map((size, idx) => (
+                  {(product.packSizes?.length > 0 ? product.packSizes : [
+                      { size: '1', unit: 'Liter' },
+                      { size: '2', unit: 'Liters' },
+                      { size: '5', unit: 'Liters' }
+                  ]).map((size, idx) => (
                     <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
                       {size.size} {size.unit}
                     </div>
@@ -148,41 +156,13 @@ export const ProductDetail: React.FC = () => {
         </Container>
       </div>
 
-      {/* How to use section */}
+      {/* Targeted crops section */}
       <div className="bg-green-50 py-24 border-t border-green-100">
         <Container>
-          <SectionHeader 
-            title={t('productDetail.appDosage')} 
-            subtitle={t('productDetail.appDosageSub')} 
-          />
-
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl mx-auto">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left min-w-[500px]">
-                <thead className="bg-gray-50 border-b border-gray-100">
-                  <tr>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.method')}</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.dosage')}</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-900 uppercase tracking-wider">{t('productDetail.instructions')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {product.howToUse.map((method, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-5 font-bold text-gray-900">{method.method}</td>
-                      <td className="px-6 py-5 text-gray-600 font-medium">{method.dosage}</td>
-                      <td className="px-6 py-5 text-gray-600">{method.instructions}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="mt-16 text-center">
+          <div className="text-center">
             <h3 className="text-xl font-bold text-gray-900 mb-6">{t('productDetail.targetCrops')}</h3>
             <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-              {product.cropsTargeted.map((crop, idx) => (
+              {(product.cropsTargeted?.length > 0 ? product.cropsTargeted : ["Sugarcane", "Wheat", "Cotton", "Vegetables"]).map((crop, idx) => (
                 <span key={idx} className="bg-white px-4 py-2 rounded-full border border-green-200 text-green-800 text-sm font-medium shadow-sm">
                   {crop}
                 </span>

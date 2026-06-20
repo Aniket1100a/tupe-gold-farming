@@ -28,11 +28,9 @@ class Product(models.Model):
     full_description = models.TextField(blank=True, default='', verbose_name="Full Description")
     
     image_url = models.ImageField(upload_to='products/', null=True, blank=True)
-    benefits = models.JSONField(default=list, blank=True)
-    pack_sizes = models.JSONField(default=list, blank=True)
+
     how_to_use = models.JSONField(default=list, blank=True)
-    crops_targeted = models.JSONField(default=list, blank=True)
-    
+
     is_featured = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
 
@@ -56,6 +54,54 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name or f"Product {self.id}"
+
+
+class BenefitItem(models.Model):
+    ICON_CHOICES = [
+        ('leaf', 'Leaf'),
+        ('sprout', 'Sprout'),
+        ('sun', 'Sun'),
+        ('droplets', 'Droplets'),
+        ('shield-check', 'Shield Check'),
+        ('trending-up', 'Trending Up'),
+        ('package', 'Package'),
+    ]
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='benefits')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, choices=ICON_CHOICES, default='leaf')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+
+class PackSize(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pack_sizes')
+    size = models.CharField(max_length=50, help_text="e.g. 1, 2.5, 500")
+    unit = models.CharField(max_length=50, help_text="e.g. Liter, Kg, Gram")
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.size} {self.unit}"
+
+
+class TargetedCrop(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='targeted_crops')
+    name = models.CharField(max_length=100)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
 
 
 class ProductImage(models.Model):
