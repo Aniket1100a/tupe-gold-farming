@@ -7,8 +7,7 @@ class SiteSettings(models.Model):
     phone2 = models.CharField(max_length=20, blank=True, default='')
     email = models.EmailField(blank=True, default='')
 
-    address_en = models.TextField(blank=True, verbose_name="Address (English)")
-    address_mr = models.TextField(blank=True, verbose_name="Address (Marathi)")
+    address = models.TextField(blank=True, verbose_name="Address")
 
     whatsapp = models.CharField(max_length=20, blank=True, default='')
 

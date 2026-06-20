@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { Container, IconWrapper } from '../components/common';
 
 export const About: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {

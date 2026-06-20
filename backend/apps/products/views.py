@@ -5,6 +5,8 @@ from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 from django.db.models import Q
 from rest_framework.exceptions import NotFound
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.types import OpenApiTypes
 
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
@@ -12,6 +14,15 @@ class CategoryListView(generics.ListAPIView):
 
 class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter("category", OpenApiTypes.STR, OpenApiParameter.QUERY, description="Filter products by category slug"),
+            OpenApiParameter("featured", OpenApiTypes.STR, OpenApiParameter.QUERY, description="Filter by featured status (set to 'true')"),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Product.objects.all()
@@ -29,7 +40,14 @@ class ProductListView(generics.ListAPIView):
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
+    lookup_field = 'slug'
+
+    @extend_schema(
+        description="Retrieve a product by its slug or ID. If a numeric ID is provided, it will find the product by ID."
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
     def get_object(self):
         # The 'slug' from the URL could be an actual slug OR a numeric ID
         lookup = self.kwargs.get("slug")
@@ -51,7 +69,7 @@ class ProductDetailView(generics.RetrieveAPIView):
         # 3. Last resort: Try case-insensitive slug or a slug-friendly version of the name
         product = Product.objects.filter(
             Q(slug__iexact=lookup) |
-            Q(name_en__iexact=lookup.replace('-', ' '))
+            Q(name__iexact=lookup.replace('-', ' '))
         ).first()
 
         if product:

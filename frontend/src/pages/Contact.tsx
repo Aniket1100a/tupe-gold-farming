@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { PageHeader, Container, Button, IconWrapper } from '../components/common';
 
 export const Contact: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -81,7 +81,7 @@ export const Contact: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.officeTitle')}</h3>
                     <p className="text-gray-600 leading-relaxed max-w-sm">
-                      {settings?.address ? (settings.address[language] || settings.address['en']) : ""}
+                      {settings?.address || ""}
                     </p>
                   </div>
                 </div>

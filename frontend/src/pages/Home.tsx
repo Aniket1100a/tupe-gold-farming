@@ -20,7 +20,7 @@ const getIcon = (iconName: string) => {
 };
 
 export const Home: React.FC = () => {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const [banners, setBanners] = useState<Banner[]>([]);
   const [benefits, setBenefits] = useState<BenefitItem[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -32,7 +32,6 @@ export const Home: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
 
-      // Fetch each resource individually so one failure doesn't block the whole page
       try {
         const bannersRes = await apiService.getBanners();
         setBanners(bannersRes.data);
@@ -94,14 +93,14 @@ export const Home: React.FC = () => {
                 {t('home.organicNPOP')}
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-                {heroBanner.title[language] || heroBanner.title['en']}
+                {heroBanner.title}
               </h1>
               <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-xl leading-relaxed">
-                {heroBanner.subtitle[language] || heroBanner.subtitle['en']}
+                {heroBanner.subtitle}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button to={heroBanner.ctaLink} variant="primary" size="lg">
-                  {heroBanner.ctaText[language] || heroBanner.ctaText['en'] || "Explore"}
+                  {heroBanner.ctaText || "Explore"}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
                 <Button to="/about" variant="glass" size="lg">
@@ -147,8 +146,8 @@ export const Home: React.FC = () => {
             {benefits.map((benefit) => (
               <div key={benefit.id} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <IconWrapper icon={getIcon(benefit.icon)} className="mb-6" />
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title[language] || benefit.title['en']}</h3>
-                <p className="text-gray-600 leading-relaxed">{benefit.description[language] || benefit.description['en']}</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -193,7 +192,7 @@ export const Home: React.FC = () => {
                 <div className="h-48 overflow-hidden relative">
                   <img 
                     src={result.imageUrl} 
-                    alt={result.cropName[language] || result.cropName['en']}
+                    alt={result.cropName}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
@@ -202,8 +201,8 @@ export const Home: React.FC = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{result.cropName[language] || result.cropName['en']}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{result.description[language] || result.description['en']}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{result.cropName}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{result.description}</p>
                 </div>
               </div>
             ))}

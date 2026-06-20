@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Third party apps
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
 
     # Local apps
     'apps.core',
@@ -131,6 +132,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# Spectacular settings for Swagger documentation
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Tupe Gold Farming API',
+    'DESCRIPTION': 'Backend API for Tupe Gold Farming project',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -22,14 +22,13 @@ export const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchProductData = async () => {
       if (!id) return;
       setLoading(true);
 
-      // Fetch product independently
       try {
         const productRes = await apiService.getProduct(id);
         setProduct(productRes.data);
@@ -37,7 +36,6 @@ export const ProductDetail: React.FC = () => {
         console.error("Error fetching product details:", error);
       }
 
-      // Fetch settings independently
       try {
         const settingsRes = await apiService.getSettings();
         setSettings(settingsRes.data);
@@ -93,11 +91,11 @@ export const ProductDetail: React.FC = () => {
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 sticky top-32">
                 <img 
                   src={product.imageUrl} 
-                  alt={product.name[language] || product.name['en']}
+                  alt={product.name}
                   className="w-full h-full object-cover object-center"
                 />
-                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-green-800 shadow-sm uppercase tracking-wider">
-                  {product.category[language] || product.category['en']}
+                <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-green-800 shadow-sm uppercase tracking-wide">
+                  {product.category}
                 </div>
               </div>
             </div>
@@ -105,10 +103,10 @@ export const ProductDetail: React.FC = () => {
             {/* Details */}
             <div>
               <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-                {product.name[language] || product.name['en']}
+                {product.name}
               </h1>
               <p className="text-xl text-gray-700 leading-relaxed mb-10">
-                {product.fullDescription[language] || product.fullDescription['en']}
+                {product.fullDescription}
               </p>
 
               {product.benefits && product.benefits.length > 0 && (
@@ -120,10 +118,10 @@ export const ProductDetail: React.FC = () => {
                         <IconWrapper icon={getIcon(benefit.icon)} className="w-12 h-12" />
                         <div>
                           <h4 className="text-lg font-bold text-gray-900 mb-1">
-                            {benefit.title[language] || benefit.title['en']}
+                            {benefit.title}
                           </h4>
                           <p className="text-gray-600">
-                            {benefit.description[language] || benefit.description['en']}
+                            {benefit.description}
                           </p>
                         </div>
                       </div>
@@ -141,7 +139,7 @@ export const ProductDetail: React.FC = () => {
                   <div className="flex flex-wrap gap-4">
                     {product.packSizes.map((size, idx) => (
                       <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
-                        {size.size} {size.unit[language] || size.unit['en']}
+                        {size.size} {size.unit}
                       </div>
                     ))}
                   </div>
@@ -189,9 +187,9 @@ export const ProductDetail: React.FC = () => {
                   <tbody className="divide-y divide-gray-100">
                     {product.howToUse.map((method, idx) => (
                       <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-5 font-bold text-gray-900">{method.method[language] || method.method['en']}</td>
-                        <td className="px-6 py-5 text-gray-600 font-medium">{method.dosage[language] || method.dosage['en']}</td>
-                        <td className="px-6 py-5 text-gray-600">{method.instructions[language] || method.instructions['en']}</td>
+                        <td className="px-6 py-5 font-bold text-gray-900">{method.method}</td>
+                        <td className="px-6 py-5 text-gray-600 font-medium">{method.dosage}</td>
+                        <td className="px-6 py-5 text-gray-600">{method.instructions}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -205,7 +203,7 @@ export const ProductDetail: React.FC = () => {
                 <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
                   {product.cropsTargeted.map((crop, idx) => (
                     <span key={idx} className="bg-white px-4 py-2 rounded-full border border-green-200 text-green-800 text-sm font-medium shadow-sm">
-                      {crop[language] || crop['en']}
+                      {crop}
                     </span>
                   ))}
                 </div>

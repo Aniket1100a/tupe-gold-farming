@@ -6,7 +6,7 @@ import { Product, SiteSettings } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 
 export const Footer: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
                 <Sprout className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white tracking-tight leading-none">TupeGoldFarming</h2>
+                <h2 className="text-2xl font-bold text-white tracking-tight leading-none">Tupe Gold Farming</h2>
                 <p className="text-[10px] text-green-400 font-medium uppercase tracking-wider">Biofertilizers</p>
               </div>
             </Link>
@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
               {products.map(p => (
                  <li key={p.id}>
                    <Link to={`/products/${p.slug}`} className="text-gray-400 hover:text-green-400 transition-colors text-sm">
-                     {p.name[language] || p.name['en']}
+                     {p.name}
                    </Link>
                  </li>
               ))}
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
               {settings?.address && (
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                  <span className="text-gray-400 text-sm">{settings.address[language] || settings.address['en']}</span>
+                  <span className="text-gray-400 text-sm">{settings.address}</span>
                 </li>
               )}
               {settings?.phone && (
@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} {settings?.companyName || 'TupeGoldFarming'}. {t('footer.allRights')}</p>
+          <p>© {new Date().getFullYear()} {settings?.companyName || 'Tupe Gold Farming'}. {t('footer.allRights')}</p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-white transition-colors">{t('footer.privacyPolicy')}</a>
             <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>

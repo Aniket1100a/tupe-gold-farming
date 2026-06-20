@@ -2,14 +2,9 @@ from rest_framework import serializers
 from .models import Category, Product, ProductImage
 
 class CategorySerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-
     class Meta:
         model = Category
         fields = ['id', 'name', 'slug']
-
-    def get_name(self, obj):
-        return {'en': obj.name_en, 'mr': obj.name_mr}
 
 class ProductImageSerializer(serializers.ModelSerializer):
     imageUrl = serializers.SerializerMethodField()
@@ -25,15 +20,13 @@ class ProductImageSerializer(serializers.ModelSerializer):
         return None
 
 class ProductSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-    category = serializers.SerializerMethodField()
-    shortDescription = serializers.SerializerMethodField()
-    fullDescription = serializers.SerializerMethodField()
+    category = serializers.CharField(source='category_display_name')
+    shortDescription = serializers.CharField(source='short_description')
+    fullDescription = serializers.CharField(source='full_description')
     imageUrl = serializers.SerializerMethodField()
     packSizes = serializers.JSONField(source='pack_sizes')
     howToUse = serializers.JSONField(source='how_to_use')
     cropsTargeted = serializers.JSONField(source='crops_targeted')
-    slug = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -42,22 +35,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'fullDescription', 'imageUrl', 'benefits', 'packSizes',
             'howToUse', 'cropsTargeted', 'is_featured'
         ]
-
-    def get_slug(self, obj):
-        # Fallback to ID if slug is missing
-        return obj.slug if obj.slug else str(obj.id)
-
-    def get_name(self, obj):
-        return {'en': obj.name_en, 'mr': obj.name_mr}
-
-    def get_category(self, obj):
-        return {'en': obj.category_name_en, 'mr': obj.category_name_mr}
-
-    def get_shortDescription(self, obj):
-        return {'en': obj.short_description_en, 'mr': obj.short_description_mr}
-
-    def get_fullDescription(self, obj):
-        return {'en': obj.full_description_en, 'mr': obj.full_description_mr}
 
     def get_imageUrl(self, obj):
         request = self.context.get('request')

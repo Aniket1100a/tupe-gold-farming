@@ -8,29 +8,22 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name_en', 'name_mr', 'slug']
-    prepopulated_fields = {'slug': ('name_en',)}
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Product)
 class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ['name_en', 'category_name_en', 'is_featured', 'order']
+    list_display = ['name', 'category_display_name', 'is_featured', 'order']
     list_editable = ['is_featured']
-    prepopulated_fields = {'slug': ('name_en',)}
+    prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductImageInline]
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name_en', 'name_mr', 'slug', 'category', 'is_featured', 'order')
-        }),
-        ('Category Display Names', {
-            'fields': ('category_name_en', 'category_name_mr'),
-            'description': "These names appear as the category label on the product card."
+            'fields': ('name', 'slug', 'category', 'category_display_name', 'is_featured', 'order')
         }),
         ('Descriptions', {
-            'fields': (
-                'short_description_en', 'short_description_mr',
-                'full_description_en', 'full_description_mr'
-            )
+            'fields': ('short_description', 'full_description')
         }),
         ('Media', {
             'fields': ('image_url',)
@@ -38,6 +31,5 @@ class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
         ('Technical Details (Advanced)', {
             'fields': ('benefits', 'pack_sizes', 'how_to_use', 'crops_targeted'),
             'classes': ('collapse',),
-            'description': "Leave these as [] if you don't want to enter JSON. I can simplify these later if needed."
         }),
     )

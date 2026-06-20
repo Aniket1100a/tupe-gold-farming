@@ -2,37 +2,30 @@ from django.db import models
 from django.utils.text import slugify
 
 class Category(models.Model):
-    name_en = models.CharField(max_length=100, blank=True, default='', verbose_name="Name (English)")
-    name_mr = models.CharField(max_length=100, blank=True, default='', verbose_name="Name (Marathi)")
+    name = models.CharField(max_length=100, blank=True, default='', verbose_name="Name")
     slug = models.SlugField(unique=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.slug and self.name_en:
-            self.slug = slugify(self.name_en)
+        if not self.slug and self.name:
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name_en or f"Category {self.id}"
+        return self.name or f"Category {self.id}"
 
     class Meta:
         verbose_name_plural = "Categories"
 
 
 class Product(models.Model):
-    name_en = models.CharField(max_length=200, blank=True, default='', verbose_name="Name (English)")
-    name_mr = models.CharField(max_length=200, blank=True, default='', verbose_name="Name (Marathi)")
+    name = models.CharField(max_length=200, blank=True, default='', verbose_name="Name")
     slug = models.SlugField(unique=True, blank=True)
-    
-    category_name_en = models.CharField(max_length=100, blank=True, default='', verbose_name="Category Display Name (English)")
-    category_name_mr = models.CharField(max_length=100, blank=True, default='', verbose_name="Category Display Name (Marathi)")
-    
+
+    category_display_name = models.CharField(max_length=100, blank=True, default='', verbose_name="Category Display Name")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='products')
-    
-    short_description_en = models.TextField(blank=True, default='', verbose_name="Short Description (English)")
-    short_description_mr = models.TextField(blank=True, default='', verbose_name="Short Description (Marathi)")
-    
-    full_description_en = models.TextField(blank=True, default='', verbose_name="Full Description (English)")
-    full_description_mr = models.TextField(blank=True, default='', verbose_name="Full Description (Marathi)")
+
+    short_description = models.TextField(blank=True, default='', verbose_name="Short Description")
+    full_description = models.TextField(blank=True, default='', verbose_name="Full Description")
     
     image_url = models.ImageField(upload_to='products/', null=True, blank=True)
     benefits = models.JSONField(default=list, blank=True)
@@ -47,25 +40,22 @@ class Product(models.Model):
         ordering = ['order']
 
     def save(self, *args, **kwargs):
-        # 1. Create a slug if missing
         if not self.slug:
-            if self.name_en:
-                self.slug = slugify(self.name_en)
+            if self.name:
+                self.slug = slugify(self.name)
             else:
                 self.slug = "temp-slug"
         
-        # 2. Save first to get an ID if it's new
         is_new = self.pk is None
         super().save(*args, **kwargs)
         
-        # 3. If it was new or had a temp slug, update it to use the ID
         if is_new or self.slug == "temp-slug":
-            if not self.name_en:
+            if not self.name:
                 self.slug = f"product-{self.pk}"
                 super().save(update_fields=['slug'])
 
     def __str__(self):
-        return self.name_en or f"Product {self.id}"
+        return self.name or f"Product {self.id}"
 
 
 class ProductImage(models.Model):
@@ -78,4 +68,4 @@ class ProductImage(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.product.name_en} - image {self.id}"
+        return f"{self.product.name} - image {self.id}"

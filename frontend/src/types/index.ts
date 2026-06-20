@@ -1,7 +1,4 @@
-export interface LocalizedString {
-  en: string;
-  mr: string;
-}
+export type LocalizedString = string;
 
 export interface BenefitItem {
   id: string;
