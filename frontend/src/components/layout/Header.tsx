@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sprout, Globe } from 'lucide-react';
+import { Globe, Sprout } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { apiService } from '../../api/services';
 import { SiteSettings } from '../../types';
@@ -8,7 +8,6 @@ import { Button } from '../common';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const location = useLocation();
@@ -125,45 +124,9 @@ export const Header: React.FC = () => {
               <Globe className="w-4 h-4" />
               {language === 'en' ? 'ENG' : language === 'mr' ? 'मराठी' : 'हिंदी'}
             </button>
-            
-            {/* Mobile Menu Button */}
-            <button 
-              className="text-gray-700 hover:text-green-700 focus:outline-none"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-100">
-          <nav className="flex flex-col px-4 py-4 space-y-4">
-            {navLinks.map((link) => (
-              <Link 
-                key={link.path} 
-                to={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-base font-medium px-2 py-1 rounded-md ${
-                  location.pathname === link.path ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:text-green-600 hover:bg-green-50'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-            {settings?.phone && (
-              <a 
-                href={`tel:${settings.phone}`}
-                className="px-4 py-3 bg-green-700 text-white text-center font-medium rounded-lg"
-              >
-                {t('nav.consult')}
-              </a>
-            )}
-          </nav>
-        </div>
-      )}
     </header>
   );
 };
