@@ -77,35 +77,77 @@ export const Home: React.FC = () => {
     <div className="flex flex-col">
       {/* Hero Section */}
       {heroBanner && (
-        <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+        <section className="relative w-full min-h-[100vh] flex items-center justify-center bg-green-950 pt-32 pb-20 lg:pt-16 lg:pb-24">
           <div className="absolute inset-0 z-0">
             <img
               src={heroBanner.imageUrl}
               alt="Agriculture Field"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center opacity-60 mix-blend-overlay"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-900/60 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-green-950 via-green-950/90 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-green-950/80 to-transparent"></div>
           </div>
 
           <Container className="relative z-10 w-full">
-            <div className="max-w-2xl">
-              <span className="inline-block py-1 px-3 rounded-full bg-green-500/20 border border-green-500/30 text-green-300 text-sm font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
-                {t('home.organicNPOP')}
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-                {heroBanner.title}
-              </h1>
-              <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-xl leading-relaxed">
-                {heroBanner.subtitle}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button to={heroBanner.ctaLink} variant="primary" size="lg">
-                  {heroBanner.ctaText || "Explore"}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-                <Button to="/about" variant="glass" size="lg">
-                  {t('home.learnMore')}
-                </Button>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 mt-4 lg:mt-0">
+              <div className="max-w-2xl lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+                <span className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-green-500/10 border border-green-400/20 text-green-300 text-sm font-bold tracking-widest uppercase mb-6 backdrop-blur-md shadow-lg">
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                  {t('home.organicNPOP')}
+                </span>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight drop-shadow-md">
+                  {heroBanner.title}
+                </h1>
+                <p className="text-lg sm:text-xl text-green-50 mb-10 max-w-xl leading-relaxed drop-shadow">
+                  {heroBanner.subtitle}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                  <Button to="/products" variant="primary" size="lg">
+                    {t('home.exploreProducts')}
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                  <Button to="/contact" variant="glass" size="lg">
+                    {t('home.getFreeAdvice')}
+                  </Button>
+                </div>
+              </div>
+
+              {/* Floating Products Presentation */}
+              <div className="w-full lg:w-1/2 relative min-h-[350px] sm:min-h-[450px] flex items-center justify-center mt-10 lg:mt-0">
+                {products.length > 0 ? (
+                  <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
+                    {/* Background glowing orb */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-green-500/30 rounded-full blur-[80px] pointer-events-none"></div>
+                    
+                    {products[0] && (
+                      <Link to={`/products/${products[0].slug || products[0].id}`} className="absolute top-0 right-0 sm:right-[10%] lg:right-0 w-[55%] sm:w-[200px] bg-white/10 backdrop-blur-2xl rounded-[1.5rem] border border-white/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] p-3 hover:scale-105 transition-all duration-500 z-20 group animate-float">
+                        <div className="w-full aspect-[4/5] rounded-xl overflow-hidden mb-3 bg-white/5 shadow-inner relative group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] transition-all">
+                          <img src={products[0].imageUrl} alt={products[0].name} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                          <div className="absolute bottom-2 left-2 right-2">
+                            <span className="inline-block text-[9px] font-bold text-white tracking-widest uppercase bg-green-600/90 px-1.5 py-0.5 rounded backdrop-blur-md truncate max-w-full">{products[0].category}</span>
+                          </div>
+                        </div>
+                        <div className="px-1 text-left">
+                          <div className="text-white font-black text-base sm:text-lg truncate tracking-tight">{products[0].name}</div>
+                          <div className="text-green-200 text-[10px] sm:text-xs font-medium mt-1 opacity-80 truncate">{products[0].shortDescription || 'Premium Biofertilizer'}</div>
+                        </div>
+                      </Link>
+                    )}
+                    
+                    {(products[1] || products[0]) && (
+                      <Link to={`/products/${(products[1] || products[0]).slug || (products[1] || products[0]).id}`} className="absolute bottom-4 left-0 sm:left-[10%] lg:left-0 w-[50%] sm:w-[180px] bg-white/5 backdrop-blur-xl rounded-[1.5rem] border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-2 hover:scale-105 transition-all duration-500 z-10 group mt-10 animate-float-delayed">
+                        <div className="w-full aspect-[4/5] rounded-xl overflow-hidden mb-3 bg-white/5 shadow-inner relative group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] transition-all">
+                          <img src={(products[1] || products[0]).imageUrl} alt={(products[1] || products[0]).name} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
+                        </div>
+                        <div className="px-1 text-left">
+                          <div className="text-white/90 font-bold text-sm sm:text-base truncate tracking-tight">{(products[1] || products[0]).name}</div>
+                        </div>
+                      </Link>
+                    )}
+                  </div>
+                ) : null}
               </div>
             </div>
           </Container>

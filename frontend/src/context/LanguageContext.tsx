@@ -27,6 +27,8 @@ export const translations = {
     
     // Home
     "home.learnMore": "Learn More",
+    "home.exploreProducts": "Explore Products",
+    "home.getFreeAdvice": "Get Free Advice",
     "home.acresTreated": "Acres Treated",
     "home.yieldIncrease": "Yield Increase",
     "home.fertilizerSaved": "Fertilizer Saved",
@@ -102,7 +104,7 @@ export const translations = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('mr');
 
   useEffect(() => {
     const savedLang = localStorage.getItem('appLang') as Language;
@@ -110,14 +112,18 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
       setLanguage(savedLang);
       // Give Google Translate a moment to initialize
       setTimeout(() => triggerGoogleTranslate(savedLang), 1000);
+    } else {
+      setTimeout(() => triggerGoogleTranslate('mr'), 1000);
     }
   }, []);
 
-  const triggerGoogleTranslate = (langCode: string) => {
+  const triggerGoogleTranslate = (langCode: string, retries = 5) => {
     const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
     if (select) {
       select.value = langCode;
       select.dispatchEvent(new Event('change'));
+    } else if (retries > 0) {
+      setTimeout(() => triggerGoogleTranslate(langCode, retries - 1), 500);
     }
   };
 

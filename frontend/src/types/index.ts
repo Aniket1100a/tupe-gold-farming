@@ -46,8 +46,6 @@ export interface Banner {
   title: LocalizedString;
   subtitle: LocalizedString;
   imageUrl: string;
-  ctaText: LocalizedString;
-  ctaLink: string;
 }
 
 export interface SiteSettings {

@@ -21,8 +21,6 @@ export const BANNERS: Banner[] = [
     title: 'Precision Fermented Biofertilizers',
     subtitle: '100% Organic certified solutions for sustainable and profitable agriculture.',
     imageUrl: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
-    ctaText: 'Explore Our Products',
-    ctaLink: '/products',
   }
 ];
 

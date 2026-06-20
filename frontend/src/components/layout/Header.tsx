@@ -69,7 +69,7 @@ export const Header: React.FC = () => {
             ))}
             
             {/* Language Switcher */}
-            <div className="relative">
+            <div className="relative notranslate" translate="no">
               <button 
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
                 className="flex items-center gap-1.5 text-gray-700 hover:text-green-700 text-sm font-medium"
@@ -114,13 +114,13 @@ export const Header: React.FC = () => {
 
           <div className="flex gap-4 md:hidden">
             {/* Mobile Language Switcher */}
-            {/* Simple toggle between EN and MR for mobile space constraints */}
             <button 
-              onClick={() => setLanguage(language === 'en' ? 'mr' : 'en')}
-              className="flex items-center gap-1 text-green-700 text-sm font-bold bg-green-50 px-2 py-1 rounded-md"
+              onClick={() => setLanguage(language === 'en' ? 'mr' : language === 'mr' ? 'hi' : 'en')}
+              className="flex items-center gap-1 text-green-700 text-sm font-bold bg-green-50 px-2 py-1 rounded-md notranslate"
+              translate="no"
             >
               <Globe className="w-4 h-4" />
-              {language === 'en' ? 'EN' : language === 'mr' ? 'MR' : 'HI'}
+              {language === 'en' ? 'ENG' : language === 'mr' ? 'मराठी' : 'हिंदी'}
             </button>
             
             {/* Mobile Menu Button */}

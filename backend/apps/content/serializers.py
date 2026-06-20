@@ -2,13 +2,11 @@ from rest_framework import serializers
 from .models import Banner, BenefitItem, CropResult
 
 class BannerSerializer(serializers.ModelSerializer):
-    ctaText = serializers.CharField(source='cta_text')
     imageUrl = serializers.SerializerMethodField()
-    ctaLink = serializers.CharField(source='cta_link')
 
     class Meta:
         model = Banner
-        fields = ['id', 'title', 'subtitle', 'imageUrl', 'ctaText', 'ctaLink']
+        fields = ['id', 'title', 'subtitle', 'imageUrl']
 
     def get_imageUrl(self, obj):
         request = self.context.get('request')

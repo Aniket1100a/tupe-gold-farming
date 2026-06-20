@@ -6,7 +6,7 @@ from .models import Banner, BenefitItem, CropResult
 class BannerAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['title', 'is_active', 'order']
     list_editable = ['is_active']
-    fields = ('title', 'subtitle', 'cta_text', 'image', 'cta_link', 'is_active', 'order')
+    fields = ('title', 'subtitle', 'image', 'is_active', 'order')
 
 @admin.register(BenefitItem)
 class BenefitItemAdmin(SortableAdminMixin, admin.ModelAdmin):
