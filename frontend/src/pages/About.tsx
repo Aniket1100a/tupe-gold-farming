@@ -36,8 +36,8 @@ export const About: React.FC = () => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <img src="https://images.unsplash.com/photo-1405852903341-d0b80615f7c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Farming" className="rounded-2xl h-64 object-cover w-full shadow-lg" />
-              <img src="https://images.unsplash.com/photo-1590682680695-43b964a3ae17?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Lab" className="rounded-2xl h-64 object-cover w-full shadow-lg mt-8" />
+              <img src="/rootimage1.png" alt="Farming" className="rounded-2xl h-64 object-cover w-full shadow-lg" />
+              <img src="/rootimage.png" alt="Lab" className="rounded-2xl h-64 object-cover w-full shadow-lg mt-8" />
             </div>
           </div>
 
@@ -69,7 +69,7 @@ export const About: React.FC = () => {
             <div className="order-2 md:order-1 relative">
               <div className="absolute inset-0 bg-gold-200/30 rounded-3xl transform -translate-x-4 translate-y-4"></div>
               <img 
-                src="https://images.unsplash.com/photo-1592982537447-6f2cf3cdd8bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                src="/rootimage2.png" 
                 alt="Soil and roots" 
                 className="rounded-3xl relative z-10 w-full h-[500px] object-cover shadow-xl border-4 border-white"
               />
