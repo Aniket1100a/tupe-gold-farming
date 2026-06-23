@@ -54,7 +54,8 @@ export const Home: React.FC = () => {
 
       try {
         const settingsRes = await apiService.getSettings();
-        setSettings(settingsRes.data);
+        const data = settingsRes.data;
+        setSettings(Array.isArray(data) ? data[0] : data);
       } catch (e) { console.error("Settings fetch failed", e); }
 
       setLoading(false);
@@ -72,6 +73,7 @@ export const Home: React.FC = () => {
   }
 
   const heroBanner = banners.length > 0 ? banners[0] : null;
+  const primaryPhone = settings?.phoneList?.[0] || settings?.phones;
 
   return (
     <div className="flex flex-col">
@@ -90,7 +92,7 @@ export const Home: React.FC = () => {
 
           <Container className="relative z-10 w-full">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 mt-4 lg:mt-0">
-              <div className="max-w-2xl lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+              <div className="max-w-2xl lg:w-5/12 flex flex-col items-center lg:items-start text-center lg:text-left">
                 <span className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-gold-500/10 border border-gold-400/30 text-gold-300 text-sm font-bold tracking-widest uppercase mb-6 backdrop-blur-md shadow-lg">
                   <span className="w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
                   {t('home.organicNPOP')}
@@ -112,42 +114,40 @@ export const Home: React.FC = () => {
                 </div>
               </div>
 
-              {/* Floating Products Presentation */}
-              <div className="w-full lg:w-1/2 relative min-h-[350px] sm:min-h-[450px] flex items-center justify-center mt-10 lg:mt-0">
-                {products.length > 0 ? (
-                  <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
-                    {/* Background glowing orb */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-gold-500/20 rounded-full blur-[80px] pointer-events-none"></div>
-                    
-                    {products[0] && (
-                      <Link to={`/products/${products[0].slug || products[0].id}`} className="absolute top-0 right-0 sm:right-[10%] lg:right-0 w-[55%] sm:w-[200px] bg-white/10 backdrop-blur-2xl rounded-[1.5rem] border border-gold-500/30 shadow-[0_30px_60px_-15px_rgba(212,175,55,0.2)] p-3 hover:scale-105 transition-all duration-500 z-20 group animate-float">
-                        <div className="w-full aspect-[4/5] rounded-xl overflow-hidden mb-3 bg-white/5 shadow-inner relative group-hover:shadow-[inset_0_0_20px_rgba(212,175,55,0.2)] transition-all">
-                          <img src={products[0].imageUrl} alt={products[0].name} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
-                          <div className="absolute bottom-2 left-2 right-2">
-                            <span className="inline-block text-[9px] font-bold text-green-950 tracking-widest uppercase bg-gradient-to-r from-gold-400 to-gold-500 px-1.5 py-0.5 rounded backdrop-blur-md truncate max-w-full">{products[0].category}</span>
-                          </div>
-                        </div>
-                        <div className="px-1 text-left">
-                          <div className="text-white font-black text-base sm:text-lg truncate tracking-tight">{products[0].name}</div>
-                          <div className="text-gold-200 text-[10px] sm:text-xs font-medium mt-1 opacity-80 truncate">{products[0].shortDescription || 'Premium Biofertilizer'}</div>
-                        </div>
-                      </Link>
-                    )}
-                    
-                    {(products[1] || products[0]) && (
-                      <Link to={`/products/${(products[1] || products[0]).slug || (products[1] || products[0]).id}`} className="absolute bottom-4 left-0 sm:left-[10%] lg:left-0 w-[50%] sm:w-[180px] bg-white/5 backdrop-blur-xl rounded-[1.5rem] border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-2 hover:-translate-y-2 hover:border-gold-500/20 transition-all duration-500 z-10 group mt-10 animate-float-delayed">
-                        <div className="w-full aspect-[4/5] rounded-xl overflow-hidden mb-3 bg-white/5 shadow-inner relative group-hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.1)] transition-all">
-                          <img src={(products[1] || products[0]).imageUrl} alt={(products[1] || products[0]).name} className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80"></div>
-                        </div>
-                        <div className="px-1 text-left">
-                          <div className="text-white/90 font-bold text-sm sm:text-base truncate tracking-tight">{(products[1] || products[0]).name}</div>
-                        </div>
-                      </Link>
-                    )}
+              {/* Hero Image Presentation */}
+              <div className="w-full lg:w-7/12 relative flex items-center justify-center mt-10 lg:mt-0 px-4 sm:px-8">
+                <div className="relative w-full max-w-[750px] group">
+                  {/* Background glowing orb */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gold-500/40 rounded-full blur-[120px] pointer-events-none group-hover:bg-gold-400/50 transition-colors duration-700"></div>
+                  <div className="absolute -inset-4 bg-gradient-to-tr from-gold-600/40 via-gold-400/20 to-gold-600/40 rounded-[2.5rem] blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                  
+                  <div className="relative w-full rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.4)] border-2 border-gold-400/40">
+                    {/* The uploaded hero image */}
+                    <img 
+                      src="/hero-bg1.png" 
+                      alt="Tupe Gold Farming Products" 
+                      className="relative z-10 w-full h-auto object-cover object-center group-hover:scale-105 transition-transform duration-700" 
+                      onError={(e) => {
+                        // Fallback placeholder if image isn't uploaded yet
+                        (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/10351f/d4af37?text=Upload+hero-bg1.png\\nTo+Public+Folder';
+                      }}
+                    />
+                    {/* Optional gradient overlay to ensure text/surroundings blend smoothly if needed */}
+                    <div className="absolute inset-0 z-20 pointer-events-none shadow-[inset_0_0_50px_rgba(0,0,0,0.3)] rounded-3xl"></div>
                   </div>
-                ) : null}
+
+                  {/* The uploaded logo overlay */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-56 sm:w-80 z-30 transition-all duration-700 group-hover:scale-110 pointer-events-none">
+                    <img
+                      src="/logo.png"
+                      alt="Tupe Gold Farming"
+                      className="w-full h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </Container>
@@ -307,14 +307,16 @@ export const Home: React.FC = () => {
             <p className="text-xl text-green-50 mb-10 font-medium">{t('home.readyToTransformSub')}</p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-              <Button
-                href={`tel:${settings.phone}`}
-                variant="primary"
-                size="lg"
-              >
-                <PhoneCall className="w-5 h-5 text-green-900" />
-                {t('home.call')} {settings.phone}
-              </Button>
+              {primaryPhone && (
+                <Button
+                  href={`tel:${primaryPhone}`}
+                  variant="primary"
+                  size="lg"
+                >
+                  <PhoneCall className="w-5 h-5 text-green-900" />
+                  {t('home.call')} {primaryPhone}
+                </Button>
+              )}
               <Button
                 href={`https://wa.me/${settings.whatsapp.replace(/\D/g,'')}`}
                 variant="glass"

@@ -48,6 +48,8 @@ export const Header: React.FC = () => {
   const rawLogo = settings?.logoUrl || (settings as any)?.logo || (settings as any)?.logo_url || (settings as any)?.site_logo;
   const logoImage = getAbsoluteUrl(rawLogo);
 
+  const primaryPhone = settings?.phoneList?.[0] || settings?.phones;
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -137,9 +139,9 @@ export const Header: React.FC = () => {
               )}
             </div>
 
-            {settings?.phone && (
+            {primaryPhone && (
               <Button 
-                href={`tel:${settings.phone}`}
+                href={`tel:${primaryPhone}`}
                 size="sm"
               >
                 {t('nav.consult')}

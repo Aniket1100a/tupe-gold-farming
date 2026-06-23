@@ -56,9 +56,12 @@ export const Contact: React.FC = () => {
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.phoneTitle')}</h3>
                       <p className="text-gray-600 mb-2">{t('contact.phoneDesc')}</p>
                       <div className="flex flex-col gap-1">
-                        <a href={`tel:${settings.phone}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.phone}</a>
-                        {settings.phone2 && (
-                          <a href={`tel:${settings.phone2}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.phone2}</a>
+                        {settings.phoneList && settings.phoneList.length > 0 ? (
+                          settings.phoneList.map((phone, idx) => (
+                            <a key={idx} href={`tel:${phone}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{phone}</a>
+                          ))
+                        ) : (
+                          settings.phones && <a href={`tel:${settings.phones}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.phones}</a>
                         )}
                       </div>
                     </div>
@@ -69,7 +72,15 @@ export const Contact: React.FC = () => {
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.emailTitle')}</h3>
                       <p className="text-gray-600 mb-2">{t('contact.emailDesc')}</p>
-                      <a href={`mailto:${settings.email}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.email}</a>
+                      <div className="flex flex-col gap-1">
+                        {settings.emailList && settings.emailList.length > 0 ? (
+                          settings.emailList.map((email, idx) => (
+                            <a key={idx} href={`mailto:${email}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{email}</a>
+                          ))
+                        ) : (
+                          settings.emails && <a href={`mailto:${settings.emails}`} className="text-green-700 font-bold hover:text-gold-600 transition-colors text-lg">{settings.emails}</a>
+                        )}
+                      </div>
                     </div>
                   </div>
 
