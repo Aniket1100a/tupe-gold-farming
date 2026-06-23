@@ -3,12 +3,12 @@ from django.db import models
 class SiteSettings(models.Model):
     company_name = models.CharField(max_length=200, default="Tupe Gold Farming")
     logo = models.ImageField(upload_to='core/', blank=True, null=True)
-    phone = models.CharField(max_length=20, blank=True, default='')
-    phone2 = models.CharField(max_length=20, blank=True, default='')
-    email = models.EmailField(blank=True, default='')
+    
+    # Support multiple values via comma-separated strings
+    phones = models.TextField(blank=True, default='', help_text="Comma separated phone numbers")
+    emails = models.TextField(blank=True, default='', help_text="Comma separated email addresses")
 
     address = models.TextField(blank=True, verbose_name="Address")
-
     whatsapp = models.CharField(max_length=20, blank=True, default='')
 
     # socialLinks

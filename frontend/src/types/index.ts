@@ -50,9 +50,10 @@ export interface Banner {
 
 export interface SiteSettings {
   companyName: string;
-  phone: string;
-  phone2?: string;
-  email: string;
+  phones: string;
+  emails: string;
+  phoneList: string[];
+  emailList: string[];
   address: LocalizedString;
   whatsapp: string;
   logoUrl?: string;
