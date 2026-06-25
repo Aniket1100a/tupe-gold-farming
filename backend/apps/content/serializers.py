@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Banner, BenefitItem, CropResult
+from .models import Banner, BenefitItem, CropResult, CropResultImage
 
 class BannerSerializer(serializers.ModelSerializer):
     imageUrl = serializers.SerializerMethodField()
@@ -19,14 +19,28 @@ class BenefitItemSerializer(serializers.ModelSerializer):
         model = BenefitItem
         fields = ['id', 'icon', 'title', 'description']
 
+class CropResultImageSerializer(serializers.ModelSerializer):
+    imageUrl = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CropResultImage
+        fields = ['id', 'imageUrl']
+
+    def get_imageUrl(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
+
 class CropResultSerializer(serializers.ModelSerializer):
     cropName = serializers.CharField(source='crop_name')
     yieldIncreasePercentage = serializers.CharField(source='yield_increase_percentage')
     imageUrl = serializers.SerializerMethodField()
+    galleryImages = CropResultImageSerializer(source='images', many=True, read_only=True)
 
     class Meta:
         model = CropResult
-        fields = ['id', 'cropName', 'yieldIncreasePercentage', 'description', 'imageUrl']
+        fields = ['id', 'cropName', 'yieldIncreasePercentage', 'description', 'imageUrl', 'galleryImages']
 
     def get_imageUrl(self, obj):
         request = self.context.get('request')

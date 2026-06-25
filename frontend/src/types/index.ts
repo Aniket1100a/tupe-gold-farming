@@ -33,12 +33,18 @@ export interface Product {
   is_featured: boolean;
 }
 
+export interface GalleryImage {
+  id: number;
+  imageUrl: string;
+}
+
 export interface CropResult {
   id: string;
   cropName: LocalizedString;
   yieldIncreasePercentage: string;
   description: LocalizedString;
   imageUrl: string;
+  galleryImages?: GalleryImage[];
 }
 
 export interface Banner {

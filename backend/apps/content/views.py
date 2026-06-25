@@ -14,5 +14,5 @@ class BenefitItemListView(generics.ListAPIView):
 
 
 class CropResultListView(generics.ListAPIView):
-    queryset = CropResult.objects.all()
+    queryset = CropResult.objects.filter(is_active=True)
     serializer_class = CropResultSerializer
