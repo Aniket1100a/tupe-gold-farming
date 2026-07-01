@@ -151,15 +151,26 @@ export const ProductDetail: React.FC = () => {
                   {t('productDetail.packSizes')}
                 </h3>
                 <div className="flex flex-wrap gap-4">
-                  {(product.packSizes?.length > 0 ? product.packSizes : [
+                  {product.packSizes && product.packSizes.length > 0 ? (
+                    product.packSizes.map((size, idx) => (
+                      <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm flex flex-col items-center">
+                        <span className="text-sm opacity-75">{size.size} {size.unit}</span>
+                        {size.price && (
+                          <span className="text-lg text-green-900 mt-1">₹{size.price}</span>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    [
                       { size: '1', unit: 'Liter' },
                       { size: '2', unit: 'Liters' },
                       { size: '5', unit: 'Liters' }
-                  ]).map((size, idx) => (
-                    <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
-                      {size.size} {size.unit}
-                    </div>
-                  ))}
+                    ].map((size, idx) => (
+                      <div key={idx} className="bg-white border-2 border-green-200 text-green-800 px-6 py-3 rounded-xl font-bold shadow-sm">
+                        {size.size} {size.unit}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 

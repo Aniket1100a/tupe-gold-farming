@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import SiteSettings
+from .models import SiteSettings, OfficeAddress
+
+class OfficeAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfficeAddress
+        fields = ['id', 'title', 'address', 'map_url']
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
     socialLinks = serializers.SerializerMethodField()
@@ -7,10 +12,14 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
     logoUrl = serializers.SerializerMethodField()
     phoneList = serializers.SerializerMethodField()
     emailList = serializers.SerializerMethodField()
+    addresses = OfficeAddressSerializer(many=True, read_only=True)
 
     class Meta:
         model = SiteSettings
-        fields = ['companyName', 'logoUrl', 'phones', 'emails', 'phoneList', 'emailList', 'address', 'whatsapp', 'socialLinks']
+        fields = [
+            'companyName', 'logoUrl', 'phones', 'emails', 'phoneList',
+            'emailList', 'address', 'addresses', 'whatsapp', 'socialLinks'
+        ]
 
     def get_socialLinks(self, obj):
         return {

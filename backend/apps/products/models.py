@@ -83,13 +83,14 @@ class PackSize(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='pack_sizes')
     size = models.CharField(max_length=50, help_text="e.g. 1, 2.5, 500")
     unit = models.CharField(max_length=50, help_text="e.g. Liter, Kg, Gram")
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, help_text="Price in Rupees")
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.size} {self.unit}"
+        return f"{self.size} {self.unit} - ₹{self.price}" if self.price else f"{self.size} {self.unit}"
 
 
 class TargetedCrop(models.Model):

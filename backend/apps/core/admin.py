@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import SiteSettings
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin, SortableAdminBase
+from .models import SiteSettings, OfficeAddress
+
+class OfficeAddressInline(SortableInlineAdminMixin, admin.StackedInline):
+    model = OfficeAddress
+    extra = 1
 
 @admin.register(SiteSettings)
-class SiteSettingsAdmin(admin.ModelAdmin):
+class SiteSettingsAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('company_name', 'emails', 'phones')
+    inlines = [OfficeAddressInline]
 
     def has_add_permission(self, request):
         # Only allow one instance

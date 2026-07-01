@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiService } from '../api/services';
 import { SiteSettings } from '../types';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { PageHeader, Container, Button, IconWrapper } from '../components/common';
 
@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('contact.getInTouch')}</h2>
               
               {settings && (
-                <div className="space-y-8 mb-12">
+                <div className="space-y-10 mb-12">
                   <div className="flex items-start gap-4">
                     <IconWrapper icon={<Phone className="w-6 h-6" />} variant="gold" />
                     <div>
@@ -86,9 +86,30 @@ export const Contact: React.FC = () => {
 
                   <div className="flex items-start gap-4">
                     <IconWrapper icon={<MapPin className="w-6 h-6" />} variant="gold" />
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900 mb-1">{t('contact.officeTitle')}</h3>
-                      <p className="text-gray-600 leading-relaxed max-w-sm">{settings.address}</p>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-4">{t('contact.officeTitle')}</h3>
+                      <div className="space-y-6">
+                        {settings.addresses && settings.addresses.length > 0 ? (
+                          settings.addresses.map((addr) => (
+                            <div key={addr.id} className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                              <h4 className="font-bold text-green-800 mb-1">{addr.title}</h4>
+                              <p className="text-gray-600 text-sm leading-relaxed mb-3">{addr.address}</p>
+                              {addr.map_url && (
+                                <a
+                                  href={addr.map_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-600 hover:text-gold-700 transition-colors"
+                                >
+                                  View on Google Maps <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-gray-600 leading-relaxed max-w-sm">{settings.address}</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -97,7 +118,7 @@ export const Contact: React.FC = () => {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-gradient-to-br from-white to-gold-50/10 p-8 md:p-10 rounded-3xl shadow-xl border border-gold-100">
+            <div className="bg-gradient-to-br from-white to-gold-50/10 p-8 md:p-10 rounded-3xl shadow-xl border border-gold-100 h-fit">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('contact.sendMessage')}</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>

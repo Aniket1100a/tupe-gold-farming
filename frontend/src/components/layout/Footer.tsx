@@ -118,11 +118,23 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">{t('footer.contactUs')}</h3>
             <ul className="space-y-4">
-              {settings?.address && (
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                  <span className="text-gray-400 text-sm">{settings.address}</span>
-                </li>
+              {settings?.addresses && settings.addresses.length > 0 ? (
+                settings.addresses.map((addr) => (
+                  <li key={addr.id} className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-white text-xs font-bold mb-0.5">{addr.title}</p>
+                      <span className="text-gray-400 text-[13px] leading-tight block">{addr.address}</span>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                settings?.address && (
+                  <li className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+                    <span className="text-gray-400 text-sm">{settings.address}</span>
+                  </li>
+                )
               )}
               {phoneNumbers.length > 0 && (
                 <li className="flex items-start gap-3">

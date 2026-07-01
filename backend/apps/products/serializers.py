@@ -27,7 +27,7 @@ class BenefitItemSerializer(serializers.ModelSerializer):
 class PackSizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PackSize
-        fields = ['size', 'unit']
+        fields = ['size', 'unit', 'price']
 
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='category_display_name', required=False)

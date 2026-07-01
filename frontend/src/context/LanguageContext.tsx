@@ -84,7 +84,7 @@ export const translations = {
     "contact.sub": "Have questions about our biofertilizers or need crop-specific advice? Our agricultural experts are here to help.",
     "contact.getInTouch": "Get in Touch",
     "contact.phoneTitle": "Phone Number",
-    "contact.phoneDesc": "We're available Mon-Sat, 9am - 6pm.",
+    "contact.phoneDesc": "We're available Mon-Sat, 10am - 6pm.",
     "contact.emailTitle": "Email Address",
     "contact.emailDesc": "Send us an email anytime.",
     "contact.officeTitle": "Office Address",

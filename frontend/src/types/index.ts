@@ -10,6 +10,7 @@ export interface BenefitItem {
 export interface PackSize {
   size: string;
   unit: LocalizedString;
+  price?: number;
 }
 
 export interface HowToUse {
@@ -54,6 +55,13 @@ export interface Banner {
   imageUrl: string;
 }
 
+export interface OfficeAddress {
+  id: number;
+  title: string;
+  address: string;
+  map_url?: string;
+}
+
 export interface SiteSettings {
   companyName: string;
   phones: string;
@@ -61,6 +69,7 @@ export interface SiteSettings {
   phoneList: string[];
   emailList: string[];
   address: LocalizedString;
+  addresses: OfficeAddress[];
   whatsapp: string;
   logoUrl?: string;
   socialLinks: {
