@@ -1,6 +1,6 @@
 import { client } from './client';
 // Fallbacks for type definitions, assuming you have types or you want to return generic promises.
-import { Banner, BenefitItem, Product, CropResult, SiteSettings } from '../types';
+import { Banner, BenefitItem, Product, CropResult, SiteSettings, Review } from '../types';
 
 export const apiService = {
   getBanners: async () => client.get<Banner[]>('/api/content/banners/'),
@@ -19,4 +19,14 @@ export const apiService = {
     return { ...res, data: data as SiteSettings };
   },
   getCategories: async () => client.get<{name: string, slug: string}[]>('/api/products/categories/'),
+
+  // Reviews
+  getReviews: async () => client.get<Review[]>('/api/content/reviews/'),
+  createReview: async (formData: FormData) => {
+    return client.post('/api/content/reviews/create/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 };

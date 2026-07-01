@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Banner, BenefitItem, CropResult, CropResultImage
+from .models import Banner, BenefitItem, CropResult, CropResultImage, Review
 
 class BannerSerializer(serializers.ModelSerializer):
     imageUrl = serializers.SerializerMethodField()
@@ -47,3 +47,25 @@ class CropResultSerializer(serializers.ModelSerializer):
         if obj.image:
             return request.build_absolute_uri(obj.image.url) if request else obj.image.url
         return None
+
+class ReviewSerializer(serializers.ModelSerializer):
+    imageUrl = serializers.SerializerMethodField()
+    farmerType = serializers.CharField(source='farmer_type')
+
+    class Meta:
+        model = Review
+        fields = ['id', 'name', 'farmerType', 'rating', 'comment', 'imageUrl', 'created_at']
+        read_only_fields = ['id', 'created_at', 'imageUrl']
+
+    def get_imageUrl(self, obj):
+        request = self.context.get('request')
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        return None
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    farmerType = serializers.CharField(source='farmer_type')
+
+    class Meta:
+        model = Review
+        fields = ['name', 'farmerType', 'rating', 'comment', 'image']

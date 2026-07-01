@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Banner(models.Model):
     title = models.CharField(max_length=200, blank=True, verbose_name="Title")
@@ -52,3 +53,20 @@ class CropResultImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.crop_result.crop_name}"
+
+
+class Review(models.Model):
+    name = models.CharField(max_length=100)
+    farmer_type = models.CharField(max_length=100, help_text="e.g. Sugarcane Farmer")
+    rating = models.PositiveIntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField()
+    image = models.ImageField(upload_to='reviews/', null=True, blank=True)
+    is_approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"{self.name} - {self.farmer_type}"

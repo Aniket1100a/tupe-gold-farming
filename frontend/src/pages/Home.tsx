@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../api/services';
-import { Banner, BenefitItem, Product, CropResult, SiteSettings } from '../types';
+import { Banner, BenefitItem, Product, CropResult, SiteSettings, Review } from '../types';
 import { ProductCard } from '../components/products/ProductCard';
-import { ArrowRight, CheckCircle2, TrendingUp, PhoneCall, ShieldCheck, Leaf, Sprout, Droplets, Sun, Star, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle2, PhoneCall, ShieldCheck, Leaf, Sprout, Sun, Star, Quote, PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { Button, Container, SectionHeader, IconWrapper } from '../components/common';
@@ -13,7 +13,6 @@ const getIcon = (iconName: string) => {
     case 'Leaf': return <Leaf className="w-8 h-8" />;
     case 'Sprout': return <Sprout className="w-8 h-8" />;
     case 'Sun': return <Sun className="w-8 h-8" />;
-    case 'Droplets': return <Droplets className="w-8 h-8" />;
     case 'ShieldCheck': return <ShieldCheck className="w-8 h-8" />;
     default: return <CheckCircle2 className="w-8 h-8" />;
   }
@@ -25,6 +24,7 @@ export const Home: React.FC = () => {
   const [benefits, setBenefits] = useState<BenefitItem[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [cropResults, setCropResults] = useState<CropResult[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,30 +33,25 @@ export const Home: React.FC = () => {
       setLoading(true);
 
       try {
-        const bannersRes = await apiService.getBanners();
+        const [bannersRes, benefitsRes, productsRes, resultsRes, reviewsRes, settingsRes] = await Promise.all([
+          apiService.getBanners(),
+          apiService.getBenefits(),
+          apiService.getProducts({ featured: true }),
+          apiService.getCropResults(),
+          apiService.getReviews(),
+          apiService.getSettings()
+        ]);
+
         setBanners(bannersRes.data);
-      } catch (e) { console.error("Banners fetch failed", e); }
-
-      try {
-        const benefitsRes = await apiService.getBenefits();
         setBenefits(benefitsRes.data);
-      } catch (e) { console.error("Benefits fetch failed", e); }
-
-      try {
-        const productsRes = await apiService.getProducts({ featured: true });
         setProducts(productsRes.data);
-      } catch (e) { console.error("Products fetch failed", e); }
-
-      try {
-        const resultsRes = await apiService.getCropResults();
         setCropResults(resultsRes.data);
-      } catch (e) { console.error("Crop Results fetch failed", e); }
-
-      try {
-        const settingsRes = await apiService.getSettings();
-        const data = settingsRes.data;
-        setSettings(Array.isArray(data) ? data[0] : data);
-      } catch (e) { console.error("Settings fetch failed", e); }
+        setReviews(reviewsRes.data);
+        const settingsData = settingsRes.data;
+        setSettings(Array.isArray(settingsData) ? settingsData[0] : settingsData);
+      } catch (e) {
+        console.error("Data fetch failed", e);
+      }
 
       setLoading(false);
     };
@@ -117,26 +112,21 @@ export const Home: React.FC = () => {
               {/* Hero Image Presentation */}
               <div className="w-full lg:w-7/12 relative flex items-center justify-center mt-10 lg:mt-0 px-4 sm:px-8">
                 <div className="relative w-full max-w-[750px] group">
-                  {/* Background glowing orb */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gold-500/40 rounded-full blur-[120px] pointer-events-none group-hover:bg-gold-400/50 transition-colors duration-700"></div>
                   <div className="absolute -inset-4 bg-gradient-to-tr from-gold-600/40 via-gold-400/20 to-gold-600/40 rounded-[2.5rem] blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                   
                   <div className="relative w-full rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.4)] border-2 border-gold-400/40">
-                    {/* The uploaded hero image */}
-                    <img 
+                    <img
                       src="/hero-bg1.png" 
                       alt="Tupe Gold Farming Products" 
                       className="relative z-10 w-full h-auto object-cover object-center group-hover:scale-105 transition-transform duration-700" 
                       onError={(e) => {
-                        // Fallback placeholder if image isn't uploaded yet
-                        (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/10351f/d4af37?text=Upload+hero-bg1.png\\nTo+Public+Folder';
+                        (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/10351f/d4af37?text=Tupe+Gold+Farming';
                       }}
                     />
-                    {/* Optional gradient overlay to ensure text/surroundings blend smoothly if needed */}
                     <div className="absolute inset-0 z-20 pointer-events-none shadow-[inset_0_0_50px_rgba(0,0,0,0.3)] rounded-3xl"></div>
                   </div>
 
-                  {/* The uploaded logo overlay */}
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-56 sm:w-80 z-30 transition-all duration-700 group-hover:scale-110 pointer-events-none">
                     <img
                       src="/logo.png"
@@ -223,75 +213,49 @@ export const Home: React.FC = () => {
       {/* Farmer Reviews Section */}
       <section className="py-24 bg-gray-50">
         <Container>
-          <SectionHeader 
-            title={t('home.farmerReviews')} 
-            subtitle={t('home.farmerReviewsSub')} 
-            align="center"
-          />
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <SectionHeader
+              title={t('home.farmerReviews')}
+              subtitle={t('home.farmerReviewsSub')}
+              align="left"
+              className="mb-0"
+            />
+            <Button to="/add-review" variant="primary" className="shadow-lg">
+              <PlusCircle className="w-5 h-5 mr-2" />
+              Add Your Review
+            </Button>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-white to-gold-50/20 p-8 rounded-3xl shadow-sm border border-gold-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative group">
-              <Quote className="w-12 h-12 text-gold-200 absolute top-6 right-6 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="flex gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-5 h-5 text-gold-400 fill-gold-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-6 italic z-10 relative">
-                "Since using Tupe Gold Farming biofertilizers, my sugarcane yield has increased by almost 30%. The soil feels softer and retains water much better. Truly a miraculous product!"
-              </p>
-              <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-gold-100 to-gold-200 rounded-full flex items-center justify-center text-green-950 font-black text-lg">
-                  RJ
+            {reviews.slice(0, 3).map((review) => (
+              <div key={review.id} className="bg-gradient-to-br from-white to-gold-50/20 p-8 rounded-3xl shadow-sm border border-gold-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative group flex flex-col">
+                <Quote className="w-12 h-12 text-gold-200 absolute top-6 right-6 opacity-50 group-hover:opacity-100 transition-opacity" />
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`w-5 h-5 ${i < review.rating ? 'text-gold-400 fill-gold-400' : 'text-gray-300'}`} />
+                  ))}
                 </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Ramesh Jadhav</h4>
-                  <p className="text-sm text-gold-600 font-bold">Sugarcane Farmer</p>
-                </div>
-              </div>
-            </div>
+                <p className="text-gray-700 leading-relaxed mb-6 italic z-10 relative flex-grow">
+                  "{review.comment}"
+                </p>
 
-            <div className="bg-gradient-to-br from-white to-gold-50/20 p-8 rounded-3xl shadow-sm border border-gold-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative group">
-              <Quote className="w-12 h-12 text-gold-200 absolute top-6 right-6 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="flex gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-5 h-5 text-gold-400 fill-gold-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-6 italic z-10 relative">
-                "I was skeptical about organic farming, but the Azotobacter plus transformed my wheat fields. Yield is up, and I saved so much on chemical fertilizers."
-              </p>
-              <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-gold-100 to-gold-200 rounded-full flex items-center justify-center text-green-950 font-black text-lg">
-                  SP
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Suresh Patil</h4>
-                  <p className="text-sm text-gold-600 font-bold">Wheat Farmer</p>
-                </div>
-              </div>
-            </div>
+                {review.imageUrl && (
+                  <div className="mb-6 rounded-2xl overflow-hidden border-2 border-gold-100 shadow-inner h-48">
+                    <img src={review.imageUrl} alt={`${review.name}'s review`} className="w-full h-full object-cover" />
+                  </div>
+                )}
 
-            <div className="bg-gradient-to-br from-white to-gold-50/20 p-8 rounded-3xl shadow-sm border border-gold-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative group">
-              <Quote className="w-12 h-12 text-gold-200 absolute top-6 right-6 opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="flex gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-5 h-5 text-gold-400 fill-gold-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-6 italic z-10 relative">
-                "Excellent results on my cotton crop. The plants are healthier, greener, and more resistant to diseases. The team also provided great guidance."
-              </p>
-              <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-gold-100 to-gold-200 rounded-full flex items-center justify-center text-green-950 font-black text-lg">
-                  AG
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Anil Gaikwad</h4>
-                  <p className="text-sm text-gold-600 font-bold">Cotton Farmer</p>
+                <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-gold-100 to-gold-200 rounded-full flex items-center justify-center text-green-950 font-black text-lg">
+                    {review.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">{review.name}</h4>
+                    <p className="text-sm text-gold-600 font-bold">{review.farmerType}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </Container>
       </section>

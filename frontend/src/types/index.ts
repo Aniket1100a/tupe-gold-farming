@@ -62,6 +62,16 @@ export interface OfficeAddress {
   map_url?: string;
 }
 
+export interface Review {
+  id: number;
+  name: string;
+  farmerType: string;
+  rating: number;
+  comment: string;
+  imageUrl?: string;
+  created_at: string;
+}
+
 export interface SiteSettings {
   companyName: string;
   phones: string;
